@@ -14,6 +14,8 @@ namespace CityPlanner.Web
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
 
+            builder.Services.AddHostedService<PopulateDbHostedService>();
+
             builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMemory"));
 
             var app = builder.Build();

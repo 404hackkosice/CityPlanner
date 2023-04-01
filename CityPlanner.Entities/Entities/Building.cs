@@ -1,9 +1,7 @@
 ﻿namespace CityPlanner.Entities.Entities
 {
-    public class Building
+    public class Building : AbstractEntity
     {
-        public int Id { get; set; }
-
         public int X { get; set; }
         public int Y { get; set; }
 

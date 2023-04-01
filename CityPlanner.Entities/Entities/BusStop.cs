@@ -1,9 +1,7 @@
 ﻿namespace CityPlanner.Entities.Entities
 {
-    public class BusStop
+    public class BusStop : AbstractEntity
     {
-        public int Id { get; set; }
-
         public int Pasport { get; set; }
 
         public int Sl { get; set; }
