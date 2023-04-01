@@ -3,6 +3,7 @@
     public class DataContext : IdentityDbContext<Account>
     {
         public DbSet<InterestPoint> InterestPoints { get; set; } = null!;
+        public DbSet<Building> Addresses { get; set; } = null!;
 
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
