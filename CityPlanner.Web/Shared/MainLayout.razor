@@ -1,4 +1,6 @@
-﻿<PageTitle>Livity - Living that you're looking for</PageTitle>
+﻿@inject IDbContextFactory<DataContext> _dbContextFactory
+
+<PageTitle>Livity - Living that you're looking for</PageTitle>
 
 <CascadingValue Name="@Constants.CascadingParameters.MainLayout" Value="this">
     <div class="flex flex-col min-h-screen">
@@ -10,7 +12,7 @@
 
             else if (_currentPage == 1)
             {
-                <Score/>
+                <Score Results="_results"/>
             }
         </main>
         <Footer/>
@@ -20,9 +22,34 @@
 @code {
     private int _currentPage = 0;
 
-    public void GoToScore(Building building)
+    private ResultsDTO? _results;
+
+    public async void GoToScore(Building building)
     {
+        using var db = _dbContextFactory.CreateDbContext();
+
+        var targetBuilding = await db.Addresses
+            .Include(x => x.NearInterestPoints)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id.Equals(building.Id));
+
+        if (targetBuilding is null)
+            return;
+
+        _results = new ScoreService(targetBuilding, new()
+        {
+           WantsBar = true,
+           WantsCafe = true,
+           WantsDogEnclosure = true,
+           WantsFastFood = true,
+           WantsGym = true,
+           WantsOutsideGym = true,
+           WantsPub = true,
+           WantsRestaurant = true
+            }).GetResults();
+
         _currentPage = 1;
+
         StateHasChanged();
     }
 }
