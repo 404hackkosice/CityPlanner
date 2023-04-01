@@ -3,11 +3,20 @@
 
 <PageTitle>Livity - Living that you're looking for</PageTitle>
 
+<div class="title-box">
+    <div class="title-subtext">
+        Find the
+    </div>
+    <div class="title-text">
+        PERFECT PLACE
+    </div>
+</div>
+
 <div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
     <h6 class="text-xl text-subText">Never been that easy</h6>
     <form @onsubmit="SubmitForm" class="flex flex-row space-x-4 p-2 bg-white w-full rounded-md items-stretch shadow-lg">
         <img src="./../icons/search.svg" alt="send icon" class="self-center">
-        <input type="text" id="inputField" class="input-field" @bind-value="@inputValue" placeholder="Street, City"/>
+        <input type="search" id="inputField" class="input-field" @bind-value="@inputValue" placeholder="Street, City"/>
 
         <button type="button" class="main-button">
             <img src="./../icons/send.svg" alt="send icon" class="self-center">
