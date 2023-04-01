@@ -1,0 +1,29 @@
+<div class="relative">
+  <input type="checkbox" id="@Id" class="hidden peer" @bind="Checked" />
+  <label for="@Id" class="py-8 px-12 border-[3px] border-transparent cursor-pointer select-none bg-white peer-checked:bg-slate-50 peer-checked:border-green-600 rounded transition-all flex gap-2 flex-col items-center justify-center w-fit">
+    <div class="text-main">@ChildContent</div>
+    <p>@Title</p>
+  </label>
+  <div class="absolute top-0 left-0 hidden peer-checked:inline peer-checked:animate-in peer-checked:zoom-in-0">
+    <div class="w-11 overflow-hidden inline-block">
+      <div class="h-16 bg-green-600 rotate-45 transform origin-top-right"></div>
+    </div>
+    </div>
+    <svg class="z-10 absolute top-0 left-0" xmlns="http://www.w3.org/2000/svg" width="28" height="29" viewBox="0 0 28 29" fill="none">
+<path d="M11.6667 19.4644L7 14.7977L8.63333 13.1644L11.6667 16.1977L19.3667 8.49772L21 10.1311L11.6667 19.4644Z" fill="white"/>
+</svg>
+</div>
+
+@code {
+  [Parameter]
+  public int Id { get; set; }
+
+  [Parameter]
+  public string? Title { get; set; }
+
+  [Parameter]
+  public RenderFragment? ChildContent { get; set; }
+
+  [Parameter]
+  public bool Checked { get; set; }
+}
