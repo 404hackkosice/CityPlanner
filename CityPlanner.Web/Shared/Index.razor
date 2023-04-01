@@ -1,8 +1,5 @@
 ﻿@implements IDisposable
-@page "/"
 @inject IDbContextFactory<DataContext> _dbContextFactory
-
-<PageTitle>Livity - Living that you're looking for</PageTitle>
 
 <div class="title-box">
     <div class="title-subtext">
@@ -83,6 +80,9 @@
 </div>
 
 @code {
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
@@ -144,12 +144,14 @@
         submitted = true;
         _resultAddresses = null;
 
-        while (submitted && !showResult)
+        for(int i=0; i<2; i++)
         {
             await Task.Delay(1000);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
+
+        _mainLayout.GoToScore(_selected);
     }
 
     private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)

@@ -32,9 +32,12 @@
             public const string CAFE = "cafe";
             public const string FAST_FOOD = "fast_food";
             public const string DOG_ENCLOSURE = "Vybehy_psy";
-
         }
 
+        public static class CascadingParameters
+        {
+            public const string MainLayout = "MainLayout";
+        }
 
         public static readonly string WWW_ROOT = $"{AppDomain.CurrentDomain.BaseDirectory}/wwwroot";
         public static readonly string DATA_PATH = $"{WWW_ROOT}/data";

@@ -1,10 +1,28 @@
-﻿@inherits LayoutComponentBase
+﻿<PageTitle>Livity - Living that you're looking for</PageTitle>
 
-<PageTitle>Livity</PageTitle>
+<CascadingValue Name="@Constants.CascadingParameters.MainLayout" Value="this">
+    <div class="flex flex-col min-h-screen">
+        <main class="flex-1">
+            @if (_currentPage == 0)
+            {
+                <Index/>
+            }
 
-<div class="flex flex-col min-h-screen">
-    <main class="flex-1">
-        @Body
-    </main>
-    <Footer/>
-</div>
+            else if (_currentPage == 1)
+            {
+                <Score/>
+            }
+        </main>
+        <Footer/>
+    </div>
+</CascadingValue>
+
+@code {
+    private int _currentPage = 0;
+
+    public void GoToScore(Building building)
+    {
+        _currentPage = 1;
+        StateHasChanged();
+    }
+}
