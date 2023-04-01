@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CityPlanner.Entities\CityPlanner.Entities.csproj" />
+    <ProjectReference Include="..\CityPlanner.Internal\CityPlanner.Internal.csproj" />
+  </ItemGroup>
+
+</Project>
