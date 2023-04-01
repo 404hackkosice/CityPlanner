@@ -12,8 +12,15 @@
 @if (submitted && !showResult)
 {
     <div>
-        <div class="spinner"></div>
-        Checking for <span>@spinnerText</span>...
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+        </svg>
+        Checking for <span
+            class='font-bold'>@spinnerText</span>...
     </div>
 }
 else if (showResult)
@@ -24,10 +31,10 @@ else if (showResult)
 }
 
 @code {
-    private string? spinnerText;
-    private string[] spinnerTexts = { 
-        "hospitals", "parks", "museums", "kindergardens", "bars", "gardens", "parking spots", "public transport"
+    private string[] spinnerTexts = {
+        "houses", "hospitals", "parks", "museums", "kindergardens", "bars", "gardens", "parking spots", "public transport"
     };
+    private string? spinnerText = "goverment offices";
 
     private string? inputValue;
 
@@ -37,18 +44,13 @@ else if (showResult)
     private async Task SubmitForm()
     {
         submitted = true;
-        StateHasChanged();
 
-        int currentTextIndex = 0;
-        while (!showResult)
+        while (submitted && !showResult)
         {
-            spinnerText = spinnerTexts[currentTextIndex];
-            currentTextIndex = (currentTextIndex + 1) % spinnerTexts.Length;
+            await Task.Delay(3000);
 
+            spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
-            await Task.Delay(4000);
         }
-        
-        showResult = true;
     }
 }

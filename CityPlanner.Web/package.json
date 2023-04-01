@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/404hackkosice/CityPlanner/issues"
   },
-  "homepage": "https://github.com/404hackkosice/CityPlanner#readme"
+  "homepage": "https://github.com/404hackkosice/CityPlanner#readme",
+  "devDependencies": {
+    "@tailwindcss/jit": "^0.1.18",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^2.2.19"
+  }
 }
