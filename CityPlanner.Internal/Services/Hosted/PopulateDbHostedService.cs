@@ -45,6 +45,7 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
                 {
                     Street = x.Street,
                     District = x.District,
+                    SearchableAddress = $"{x.Street} {x.OrientationNumber}, {x.District}".NormalizeForSearch(),
                     HousingCount = Convert.ToInt32(x.HousingCount),
                     OrientationNumber = x.OrientationNumber,
                     Type = x.Type,

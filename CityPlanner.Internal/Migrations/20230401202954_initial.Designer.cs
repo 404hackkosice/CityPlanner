@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CityPlanner.Internal.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230401174829_initial")]
+    [Migration("20230401202954_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -50,6 +50,10 @@ namespace CityPlanner.Internal.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OrientationNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SearchableAddress")
                         .IsRequired()
                         .HasColumnType("longtext");
 

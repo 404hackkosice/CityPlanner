@@ -50,6 +50,10 @@ namespace CityPlanner.Internal.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("SearchableAddress")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("longtext");

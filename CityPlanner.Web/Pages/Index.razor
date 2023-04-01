@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@implements IDisposable
+@page "/"
 @inject DataContext _db
 
 <PageTitle>Livity - Living that you're looking for</PageTitle>
@@ -16,24 +17,23 @@
     <h6 class="text-xl text-subText">Never been that easy</h6>
     <form @onsubmit="SubmitForm" class="flex flex-row space-x-4 p-2 bg-white w-full rounded-md items-stretch shadow-lg">
         <img src="./../icons/search.svg" alt="send icon" class="self-center">
-        <input type="search" id="inputField" class="input-field" @bind-value="@inputValue" placeholder="Street, City"/>
+        <input type="search" id="inputField" class="input-field" @oninput="OnSearchTextChanged" placeholder="Street, City"/>
 
         <button type="button" class="main-button">
             <img src="./../icons/send.svg" alt="send icon" class="self-center">
             <span class="self-center">SUBMIT</span>
         </button>
     </form>
-    <!-- 
-    <div class="dropdown-box">
-        <div class="dropdown-item">Letna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Jarna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Zimna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Jesenna</div>
-    </div>
-    -->
+    
+    @if (_resultAddresses is not null && _resultAddresses.Any())
+    {
+        <div class="dropdown-box">
+            @foreach(var result in _resultAddresses) 
+            {
+                <div class="dropdown-item">@result.Street @result.OrientationNumber, @result.District</div>
+            }
+        </div>
+    }
 </div>
 
 <div class="flex flex-col justify-center items-center mt-14 w-1/4 mx-auto space-y-2">
@@ -51,15 +51,6 @@
         <span class="self-center">Chat with us</span>
     </button>
 </div>
-
-<!--
-<SelectItem Id=4 Title="Doctor" Checked=true>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-<path d="M12 17.826C11.8694 17.826 11.7412 17.7919 11.6278 17.7271L5.0625 13.9748C5.00545 13.9418 4.94074 13.9245 4.87486 13.9245C4.80899 13.9246 4.74428 13.9419 4.68726 13.9749C4.63024 14.0079 4.58291 14.0553 4.55003 14.1124C4.51716 14.1695 4.4999 14.2342 4.5 14.3001V17.826C4.49989 17.9599 4.53561 18.0913 4.60344 18.2067C4.67128 18.3221 4.76877 18.4173 4.88578 18.4823L11.6358 22.2323C11.7472 22.2942 11.8725 22.3266 12 22.3266C12.1275 22.3266 12.2528 22.2942 12.3642 22.2323L19.1142 18.4823C19.2312 18.4173 19.3287 18.3221 19.3966 18.2067C19.4644 18.0913 19.5001 17.9599 19.5 17.826V14.3001C19.5001 14.2342 19.4828 14.1695 19.45 14.1124C19.4171 14.0553 19.3698 14.0079 19.3127 13.9749C19.2557 13.9419 19.191 13.9246 19.1251 13.9245C19.0593 13.9245 18.9945 13.9418 18.9375 13.9748L12.3722 17.7271C12.2588 17.7919 12.1306 17.826 12 17.826Z" fill="#667BE6"/>
-<path d="M23.2463 9.50571V9.50055C23.2341 9.38167 23.1938 9.2674 23.1285 9.16728C23.0633 9.06715 22.9751 8.98406 22.8713 8.92493L12.3713 2.92493C12.2579 2.86014 12.1296 2.82606 11.9991 2.82606C11.8685 2.82606 11.7402 2.86014 11.6269 2.92493L1.12689 8.92493C1.01213 8.99054 0.916754 9.08531 0.850418 9.19965C0.784083 9.31399 0.749146 9.44383 0.749146 9.57602C0.749146 9.70821 0.784083 9.83805 0.850418 9.95239C0.916754 10.0667 1.01213 10.1615 1.12689 10.2271L11.6269 16.2271C11.7402 16.2919 11.8685 16.326 11.9991 16.326C12.1296 16.326 12.2579 16.2919 12.3713 16.2271L21.6094 10.9485C21.6237 10.9403 21.6399 10.9359 21.6564 10.936C21.6728 10.936 21.689 10.9403 21.7033 10.9486C21.7176 10.9569 21.7294 10.9688 21.7376 10.9831C21.7458 10.9974 21.7501 11.0136 21.75 11.0301V17.8049C21.75 18.2085 22.0603 18.5549 22.4639 18.5751C22.5653 18.58 22.6667 18.5642 22.7618 18.5288C22.8569 18.4933 22.9439 18.439 23.0174 18.3689C23.0909 18.2989 23.1494 18.2146 23.1894 18.1213C23.2294 18.028 23.25 17.9275 23.25 17.826V9.57602C23.25 9.55253 23.2487 9.52907 23.2463 9.50571Z" fill="#667BE6"/>
-</svg>
-</SelectItem>
--->
 
 @if (submitted && !showResult)
 {
@@ -92,6 +83,35 @@ else if (showResult)
 
     private bool showResult;
     private bool submitted;
+    private System.Timers.Timer? _timer;
+    private string? _searchTerm;
+
+    private List<Building>? _resultAddresses = new();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        _timer = new System.Timers.Timer(500);
+        _timer.Stop();
+        _timer.Elapsed += Filter;
+        _timer.AutoReset = false;
+    }
+
+    private void OnSearchTextChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value as string;
+
+        if (string.IsNullOrWhiteSpace(_searchTerm))
+        {
+            _resultAddresses = null;
+            _timer?.Stop();
+        } else {
+            _timer?.Stop();
+            _timer?.Start();
+        }
+    }
 
     private async Task SubmitForm()
     {
@@ -105,4 +125,26 @@ else if (showResult)
             StateHasChanged();
         }
     }
+
+    private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)
+    {
+        if (string.IsNullOrWhiteSpace(_searchTerm))
+        {
+            _resultAddresses = new();
+            return;
+        }
+
+        _resultAddresses = await _db.Addresses
+            .Where(x => x.SearchableAddress.Contains(_searchTerm.NormalizeForSearch()))
+            .Take(10)
+            .OrderBy(x => x.Street)
+            .ThenBy(x => x.OrientationNumber)
+            .AsNoTracking()
+            .ToListAsync();
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+        => _timer?.Dispose();
 }
