@@ -8,13 +8,27 @@
     <div class="title-subtext">
         Find the
     </div>
-    <div class="title-text">
+    <div class="relative title-text w-max">
+        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-6">
         PERFECT PLACE
+        </h1>
     </div>
 </div>
 
 <div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
-    <h6 class="text-xl text-subText">Never been that easy</h6>
+    <h6 class="text-xl text-subText">
+        @if(submitted && !showResult) {
+            <p class="animate-pulse">
+                Checking for <span class='font-bold'>@spinnerText</span>...
+            </p>
+        }
+        else {
+            <p>
+                Never been that easy
+            </p>
+        }
+        
+    </h6>
     <form @onsubmit="SubmitForm" class="flex flex-row space-x-4 p-2 bg-white w-full rounded-md items-stretch shadow-lg">
         <img src="./../icons/search.svg" alt="send icon" class="self-center">
         <input type="search" id="inputField" class="input-field" @oninput="OnSearchTextChanged" placeholder="Street, City"/>
@@ -24,10 +38,9 @@
             <span class="self-center">SUBMIT</span>
         </button>
     </form>
-    
     @if (_resultAddresses is not null && _resultAddresses.Any())
     {
-        <div class="dropdown-box">
+        <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
             @foreach(var result in _resultAddresses) 
             {
                 <div class="dropdown-item">@result.Street @result.OrientationNumber, @result.District</div>
@@ -36,46 +49,27 @@
     }
 </div>
 
-<div class="flex flex-col justify-center items-center mt-14 w-1/4 mx-auto space-y-2">
-    <img src="./../icons/direction-fork.svg" alt="send icon" class="w-1/6">
-    <p>
+<div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
+    <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
+    <p class="text-lg text-subText text-center">
         it should not take longer than 15 minutes for you to get everywhere
     </p>
-    <button class="more-button">Read more</button>
+    <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
 </div>
 
 <div class="flex flex-col w-1/5 mx-auto mt-12 space-y-2 items-center">
     <p>Any questions?</p>
-    <button class="chat-button">
-        <img src="./../icons/chat.svg" alt="chat icon" class="self-center">
-        <span class="self-center">Chat with us</span>
+    <button class="rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-4 py-[0.4rem] flex flex-row justify-center space-x-2 items-center transition-all">
+        <svg width="16" height="16" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.5 1.5H3.5C3.10218 1.5 2.72064 1.65804 2.43934 1.93934C2.15804 2.22064 2 2.60218 2 3V16.5L5 13.5H15.5C15.8978 13.5 16.2794 13.342 16.5607 13.0607C16.842 12.7794 17 12.3978 17 12V3C17 2.60218 16.842 2.22064 16.5607 1.93934C16.2794 1.65804 15.8978 1.5 15.5 1.5Z" fill="currentColor"/>
+</svg>
+        <span>Chat with us</span>
     </button>
 </div>
 
-@if (submitted && !showResult)
-{
-    <div>
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-        </svg>
-        Checking for <span
-            class='font-bold'>@spinnerText</span>...
-    </div>
-}
-else if (showResult)
-{
-    <div>
-        Results for @inputValue
-    </div>
-}
-
 @code {
     private string[] spinnerTexts = {
-        "hospitals", "parks", "museums", "kindergardens", "bars", "gardens", "parking spots", "public transport"
+        "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
     private string? spinnerText = "goverment offices";
 
