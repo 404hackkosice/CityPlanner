@@ -1,6 +1,6 @@
 ﻿@implements IDisposable
 @page "/"
-@inject DataContext _db
+@inject IDbContextFactory<DataContext> _dbContextFactory
 
 <PageTitle>Livity - Living that you're looking for</PageTitle>
 
@@ -67,7 +67,7 @@
 <div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
     <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
     <p class="text-lg text-subText text-center">
-        it should not take longer than 15 minutes for you to get everywhere
+        it should not take longer than 15 minutes for you to get anywhere
     </p>
     <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
 </div>
@@ -97,6 +97,8 @@
 
     private Building? _selected;
     private List<Building>? _resultAddresses = new();
+
+    private DateTime? _latestUpdate;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -154,13 +156,21 @@
             return;
         }
 
-        _resultAddresses = await _db.Addresses
+        _latestUpdate = DateTime.Now;
+
+        using var db = _dbContextFactory.CreateDbContext();
+        var result = await db.Addresses
             .Where(x => x.SearchableAddress.Contains(_searchTerm.NormalizeForSearch()))
-            .Take(5)
             .OrderBy(x => x.Street)
             .ThenBy(x => x.OrientationNumber)
+            .Take(5)
             .AsNoTracking()
             .ToListAsync();
+
+        if (_latestUpdate is not null && _latestUpdate > DateTime.Now)
+            return;
+
+        _resultAddresses = result;
 
         await InvokeAsync(StateHasChanged);
     }
