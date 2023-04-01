@@ -2,70 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-    font-family: 'Montserrat', sans-serif;
-    scroll-behavior: smooth;
+@layer base {
+    html {
+        font-family: 'Montserrat', sans-serif;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-image: url("./../images/title.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom center;
+        height: 98vh;
+        width: 100%;
+        @apply bg-pageBg;
+    }
+
+    h1 {
+        @apply text-main font-bold text-4xl;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
+
+    p {
+        @apply text-sm text-subText text-center;
+    }
+
+    input[type=search] {
+        @apply bg-white border-0 outline-none px-2 py-1 w-3/4 focus: border-0 focus:border-b-2 focus:border-b-main self-center;
+    }
 }
 
-body {
-    background-image: url("./../images/title.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: bottom center;
-    height: 100vh;
-    width: 100%;
-    @apply bg-pageBg;
-}
+@layer components {
+    .page {
+        @apply max-w-[90%] w-[90%] mx-auto pt-10 pb-5;
+    }
 
-.page {
-    @apply max-w-[90%] w-[90%] mx-auto pt-10 pb-5;
-}
+    .title-box {
+        @apply flex flex-col justify-center w-max mx-auto items-center space-y-2;
+    }
 
-.title-box {
-    @apply flex flex-col justify-center w-max mx-auto items-center space-y-4;
-}
+    .title-text {
+        @apply text-main font-bold text-6xl tracking-wider;
+    }
 
-.title-text {
-    @apply text-main font-bold text-6xl tracking-wider;
-}
+    .title-subtext {
+        @apply text-3xl tracking-wider;
+    }
 
-.title-subtext {
-    @apply text-3xl tracking-wider;
-}
+    .main-button,
+    .more-button {
+        transition: all ease-in 100ms;
+    }
 
-input {
-    @apply bg-white border-0 outline-none px-2 py-1 w-3/4 focus:border-0 focus:border-b-2 focus:border-b-main self-center;
-}
+    .main-button {
+        @apply rounded-md bg-main text-white hover: bg-mainDark px-4 py-2 w-1/4 flex flex-row justify-center space-x-2 items-stretch self-center;
+    }
 
-.main-button, .more-button {
-    transition: all ease-in 100ms;
-}
+    .more-button {
+        @apply rounded-md bg-white text-mainDark border-b-2 border-subText px-2 py-1 text-sm hover: bg-mainLight hover:text-white;
+    }
 
-.main-button {
-    @apply rounded-md bg-main text-white hover:bg-mainDark px-4 py-2 w-1/4 flex flex-row justify-center space-x-2 items-stretch self-center;
-}
+    .chat-button {
+        @apply rounded-md bg-mainLight text-mainDark hover: bg-main hover:text-white text-sm px-2 py-1 flex flex-row justify-center space-x-2 items-stretch;
+    }
 
-.more-button {
-    @apply rounded-md bg-white text-mainDark border-b-2 border-subText px-2 py-1 text-sm hover:bg-mainLight hover:text-white;
-}
+    .dropdown-box {
+        @apply mt-2 flex flex-col bg-white w-full rounded-md absolute overflow-hidden shadow-lg top-24;
+    }
 
-.chat-button {
-    @apply rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-2 py-1 flex flex-row justify-center space-x-2 items-stretch;
-}
+    .dropdown-item {
+        @apply text-mainDark hover: text-white hover:bg-main p-2 rounded-none cursor-pointer;
+        transition: all ease-in 200ms;
+    }
 
-p {
-    @apply text-sm text-subText text-center;
-}
-
-.dropdown-box {
-    @apply mt-2 flex flex-col bg-white w-full rounded-md absolute overflow-hidden shadow-lg top-24;
-}
-
-.dropdown-item {
-    @apply text-mainDark hover:text-white hover:bg-main p-2 rounded-none cursor-pointer;
-    transition: all ease-in 200ms;
-}
-
-.dropdown-divider {
-    @apply border-b-[1px] border-mainLight mx-2 opacity-20;
+    .dropdown-divider {
+        @apply border-b-[1px] border-mainLight mx-2 opacity-20;
+    }
 }
