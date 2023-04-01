@@ -30,6 +30,8 @@ namespace CityPlanner.Internal.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     District = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    SearchableAddress = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     HousingCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

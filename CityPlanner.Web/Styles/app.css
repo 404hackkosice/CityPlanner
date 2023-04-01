@@ -13,7 +13,7 @@
         background-repeat: no-repeat;
         background-size: contain;
         background-position: bottom center;
-        height: 98vh;
+        height: 97vh;
         width: 100%;
         @apply bg-pageBg;
     }
@@ -24,14 +24,6 @@
 
     h2 {
         @apply text-2xl;
-    }
-
-    p {
-        @apply text-sm text-subText text-center;
-    }
-
-    input[type=search] {
-        @apply bg-white border-0 outline-none px-2 py-1 w-3/4 focus:border-0 focus:border-b-2 focus:border-b-main self-center;
     }
 }
 
@@ -45,7 +37,7 @@
     }
 
     .title-text {
-        @apply text-main font-bold text-6xl tracking-wider;
+        @apply text-main font-bold text-5xl tracking-wider;
     }
 
     .title-subtext {
@@ -58,27 +50,10 @@
     }
 
     .main-button {
-        @apply rounded-md bg-main text-white hover:bg-mainDark px-4 py-2 w-1/4 flex flex-row justify-center space-x-2 items-stretch self-center;
-    }
-
-    .more-button {
-        @apply rounded-md bg-white text-mainDark border-b-2 border-subText px-2 py-1 text-sm hover:bg-mainLight hover:text-white;
-    }
-
-    .chat-button {
-        @apply rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-2 py-1 flex flex-row justify-center space-x-2 items-stretch;
-    }
-
-    .dropdown-box {
-        @apply mt-2 flex flex-col bg-white w-full rounded-md absolute overflow-hidden shadow-lg top-24;
+        @apply rounded-md bg-main text-white hover:bg-mainDark px-6 py-2 flex flex-row justify-center space-x-2 items-stretch self-center;
     }
 
     .dropdown-item {
-        @apply text-mainDark hover:text-white hover:bg-main p-2 rounded-none cursor-pointer;
-        transition: all ease-in 200ms;
-    }
-
-    .dropdown-divider {
-        @apply border-b-[1px] border-mainLight mx-2 opacity-20;
+        @apply px-4 py-[0.65rem] cursor-pointer border-b border-slate-200 transition-all hover:bg-slate-200 last:border-b-0 border-l-4 border-l-transparent hover:border-l-blue-700;
     }
 }

@@ -14,18 +14,26 @@ module.exports = {
     },
     extend: {
       keyframes: {
-        slideIn: {
-          '0%': { transform: 'translateY(0%)' },
-          '100%': { transform: 'translateY(100%)' },
+        typing: {
+          "0%": {
+            width: "0%",
+            visibility: "hidden"
+          },
+          "100%": {
+            width: "100%"
+          }  
         },
-        slideOut: {
-          '0%': { transform: 'translateY(0%)' },
-          '100%': { transform: 'translateY(-100%)' },
-        },
+        blink: {
+          "50%": {
+            borderColor: "sky-100"
+          },
+          "100%": {
+            borderColor: "sky-600"
+          }  
+        }
       },
       animation: {
-        slideIn: 'slideIn 1s ease-in-out',
-        slideOut: 'slideOut 1s ease-in-out',
+        typing: "typing 2s steps(13) infinite alternate, blink .7s infinite"
       },
       colors: {
           pageBg: 'hsl(0, 0%, 96%)',

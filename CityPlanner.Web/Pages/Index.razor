@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@implements IDisposable
+@page "/"
 @inject DataContext _db
 
 <PageTitle>Livity - Living that you're looking for</PageTitle>
@@ -7,75 +8,83 @@
     <div class="title-subtext">
         Find the
     </div>
-    <div class="title-text">
+    <div class="relative title-text w-max">
+        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-6">
         PERFECT PLACE
+        </h1>
     </div>
 </div>
 
 <div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
-    <h6 class="text-xl text-subText">Never been that easy</h6>
-    <form @onsubmit="SubmitForm" class="flex flex-row space-x-4 p-2 bg-white w-full rounded-md items-stretch shadow-lg">
-        <img src="./../icons/search.svg" alt="send icon" class="self-center">
-        <input type="search" id="inputField" class="input-field" @bind-value="@inputValue" placeholder="Street, City"/>
+    <h6 class="text-xl text-subText">
+        @if(submitted && !showResult) {
+            <p class="animate-pulse">
+                Checking for <span class='font-bold'>@spinnerText</span>...
+            </p>
+        }
+        else {
+            <p>
+                Never been that easy
+            </p>
+        }
+        
+    </h6>
+    <form @onsubmit="SubmitForm" class="w-10/12">
+        <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                @if (submitted && !showResult)
+                {
+                    <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                }
+                else
+                {
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                }
 
-        <button type="button" class="main-button">
-            <img src="./../icons/send.svg" alt="send icon" class="self-center">
-            <span class="self-center">SUBMIT</span>
-        </button>
+            </div>
+            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted>
+            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
+        </div>
     </form>
-    <!-- 
-    <div class="dropdown-box">
-        <div class="dropdown-item">Letna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Jarna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Zimna</div>
-        <hr class="dropdown-divider">
-        <div class="dropdown-item">Jesenna</div>
-    </div>
-    -->
+    @if (_resultAddresses is not null && _resultAddresses.Any())
+    {
+        <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
+            @foreach(var result in _resultAddresses) 
+            {
+                <div class="dropdown-item">@result.Street @result.OrientationNumber, @result.District</div>
+            }
+        </div>
+    }
 </div>
 
-<div class="flex flex-col justify-center items-center mt-14 w-1/4 mx-auto space-y-2">
-    <img src="./../icons/direction-fork.svg" alt="send icon" class="w-1/6">
-    <p>
+<div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
+    <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
+    <p class="text-lg text-subText text-center">
         it should not take longer than 15 minutes for you to get everywhere
     </p>
-    <button class="more-button">Read more</button>
+    <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
 </div>
 
 <div class="flex flex-col w-1/5 mx-auto mt-12 space-y-2 items-center">
     <p>Any questions?</p>
-    <button class="chat-button">
-        <img src="./../icons/chat.svg" alt="chat icon" class="self-center">
-        <span class="self-center">Chat with us</span>
+    <button class="rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-4 py-[0.4rem] flex flex-row justify-center space-x-2 items-center transition-all">
+        <svg width="16" height="16" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.5 1.5H3.5C3.10218 1.5 2.72064 1.65804 2.43934 1.93934C2.15804 2.22064 2 2.60218 2 3V16.5L5 13.5H15.5C15.8978 13.5 16.2794 13.342 16.5607 13.0607C16.842 12.7794 17 12.3978 17 12V3C17 2.60218 16.842 2.22064 16.5607 1.93934C16.2794 1.65804 15.8978 1.5 15.5 1.5Z" fill="currentColor"/>
+</svg>
+        <span>Chat with us</span>
     </button>
 </div>
 
-@if (submitted && !showResult)
-{
-    <div>
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-        </svg>
-        Checking for <span
-            class='font-bold'>@spinnerText</span>...
-    </div>
-}
-else if (showResult)
-{
-    <div>
-        Results for @inputValue
-    </div>
-}
-
 @code {
     private string[] spinnerTexts = {
-        "hospitals", "parks", "museums", "kindergardens", "bars", "gardens", "parking spots", "public transport"
+        "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
     private string? spinnerText = "goverment offices";
 
@@ -83,6 +92,35 @@ else if (showResult)
 
     private bool showResult;
     private bool submitted;
+    private System.Timers.Timer? _timer;
+    private string? _searchTerm;
+
+    private List<Building>? _resultAddresses = new();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        _timer = new System.Timers.Timer(500);
+        _timer.Stop();
+        _timer.Elapsed += Filter;
+        _timer.AutoReset = false;
+    }
+
+    private void OnSearchTextChanged(ChangeEventArgs e)
+    {
+        _searchTerm = e.Value as string;
+
+        if (string.IsNullOrWhiteSpace(_searchTerm))
+        {
+            _resultAddresses = null;
+            _timer?.Stop();
+        } else {
+            _timer?.Stop();
+            _timer?.Start();
+        }
+    }
 
     private async Task SubmitForm()
     {
@@ -96,4 +134,26 @@ else if (showResult)
             StateHasChanged();
         }
     }
+
+    private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)
+    {
+        if (string.IsNullOrWhiteSpace(_searchTerm))
+        {
+            _resultAddresses = new();
+            return;
+        }
+
+        _resultAddresses = await _db.Addresses
+            .Where(x => x.SearchableAddress.Contains(_searchTerm.NormalizeForSearch()))
+            .Take(5)
+            .OrderBy(x => x.Street)
+            .ThenBy(x => x.OrientationNumber)
+            .AsNoTracking()
+            .ToListAsync();
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+        => _timer?.Dispose();
 }

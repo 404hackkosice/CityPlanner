@@ -12,6 +12,8 @@
 
         public string District { get; set; } = null!;
 
+        public string SearchableAddress { get; set; } = null!;
+
         public int HousingCount { get; set; }
 
         public virtual List<InterestPoint> NearInterestPoints { get; set; } = new();
