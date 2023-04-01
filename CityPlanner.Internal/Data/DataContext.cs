@@ -1,6 +1,6 @@
 ﻿namespace CityPlanner.Internal.Data
 {
-    public class DataContext : IdentityDbContext<Account>
+    public class DataContext : DbContext
     {
         public DbSet<InterestPoint> InterestPoints { get; set; } = null!;
         public DbSet<Building> Addresses { get; set; } = null!;
@@ -13,6 +13,10 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Building>()
+                .HasMany(x => x.NearInterestPoints)
+                .WithMany(x => x.NearBuildings);
         }
     }
 }

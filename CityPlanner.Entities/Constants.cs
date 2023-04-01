@@ -9,8 +9,8 @@
 
         public static class CsvFiles
         {
-            public const string POINTS_OF_INTEREST = "POIs_location_catchments.csv";
-            public const string ADDRESSES = "adresne_body_byty_KE.csv";
+            public const string POINTS_OF_INTEREST = "POIs.csv";
+            public const string ADDRESSES = "addresses.csv";
         }
 
 
