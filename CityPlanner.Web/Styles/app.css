@@ -13,7 +13,7 @@
         background-repeat: no-repeat;
         background-size: contain;
         background-position: bottom center;
-        height: 100vh;
+        height: 99vh;
         width: 100%;
         @apply bg-pageBg;
     }
