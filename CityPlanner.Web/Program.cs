@@ -16,7 +16,10 @@ namespace CityPlanner.Web
 
             builder.Services.AddHostedService<PopulateDbHostedService>();
 
-            builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMemory"));
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseMySql(builder.Configuration.GetConnectionString("MainDB"), ServerVersion.Create(new Version("5.6.42"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql));
+            });
 
             var app = builder.Build();
 

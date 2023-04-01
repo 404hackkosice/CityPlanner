@@ -1,14 +1,20 @@
-﻿using CityPlanner.Internal.Data;
+﻿using CityPlanner.Entities.Entities;
+using CityPlanner.Internal.Data;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace CityPlanner.Internal.Services.Hosted;
 
 public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedService>
 {
     public PopulateDbHostedService(IServiceScopeFactory serviceScopeFactory) :
-        base(serviceScopeFactory, TimeSpan.FromDays(2), TimeSpan.FromDays(1))
+        base(serviceScopeFactory, TimeSpan.FromDays(Constants.Limits.MINIMUM_SECOND_HOSTED_SERVICE_DELAY), TimeSpan.FromDays(1))
     {
 
     }
@@ -24,10 +30,11 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
 
             if(file.Contains(Constants.CsvFiles.ADDRESSES))
             {
-                using var reader = new StreamReader(file);
+                using var reader = new StreamReader(file, Encoding.UTF8);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    Delimiter = ";"
+                    Delimiter = ";",
+                    Encoding = Encoding.UTF8
                 });
                 using var scope = ServiceScopeFactory.CreateScope();
 
@@ -52,7 +59,8 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
                 using var reader = new StreamReader(file);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    Delimiter = "\t"
+                    Delimiter = ";",
+                    Encoding = Encoding.UTF8
                 });
                 using var scope = ServiceScopeFactory.CreateScope();
 
@@ -63,14 +71,37 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
                 {
                     X = x.X,
                     Y = x.Y,
-                    Name = x.Name,
-                    TypeOne = x.TypeOne,
-                    TypeTwo = x.TypeTwo,
-                    Poly15 = x.Poly15
+                    Type = x.Type,
+                    Name = x.Name
                 }));
 
                 await db.SaveChangesAsync();
             }
         }
+
+        await CalculateNears();
+
+        Logger.LogInformation("Done.");
+    }
+
+    private async Task CalculateNears()
+    {
+        using var scope = ServiceScopeFactory.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<DataContext>()!;
+
+        var buildings = await db.Addresses
+            .Include(x => x.NearInterestPoints)
+        .ToListAsync();
+
+        var allPoints = await db.InterestPoints.ToListAsync();
+
+        foreach (var building in buildings)
+        {
+            Console.WriteLine($"building {building.Street} {building.OrientationNumber}");
+            var nearPoints = allPoints.Where(x => DistanceHelper.CalculateDistance(x.X, x.Y, building.X, building.Y) < 900);
+            building.NearInterestPoints.AddRange(nearPoints);
+        }
+
+        await db.SaveChangesAsync();
     }
 }

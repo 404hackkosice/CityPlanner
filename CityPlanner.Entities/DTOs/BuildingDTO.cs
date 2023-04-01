@@ -1,6 +1,8 @@
-﻿namespace CityPlanner.Entities.Entities
+﻿using CityPlanner.Entities.DTOs;
+
+namespace CityPlanner.Entities.Entities
 {
-    public class BuildingDTO : AbstractEntity
+    public class BuildingDTO
     {
         public int ExternalId { get; set; }
         public string Geometry { get; set; } = null!;
