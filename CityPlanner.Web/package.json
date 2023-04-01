@@ -1,0 +1,21 @@
+{
+  "name": "cityplanner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tw-start": "npx tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --watch",
+    "net-start": "dotnet watch",
+    "build": "npx tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/404hackkosice/CityPlanner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/404hackkosice/CityPlanner/issues"
+  },
+  "homepage": "https://github.com/404hackkosice/CityPlanner#readme"
+}
