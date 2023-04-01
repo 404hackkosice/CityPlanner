@@ -49,7 +49,7 @@
                 }
 
             </div>
-            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted>
+            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted value=@_searchTerm>
             <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
         </div>
     </form>
@@ -58,7 +58,7 @@
         <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
             @foreach(var result in _resultAddresses) 
             {
-                <div class="dropdown-item">@result.Street @result.OrientationNumber, @result.District</div>
+                <div class="dropdown-item" @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</div>
             }
         </div>
     }
@@ -95,6 +95,7 @@
     private System.Timers.Timer? _timer;
     private string? _searchTerm;
 
+    private Building? _selected;
     private List<Building>? _resultAddresses = new();
 
     protected override void OnAfterRender(bool firstRender)
@@ -102,7 +103,7 @@
         if (!firstRender)
             return;
 
-        _timer = new System.Timers.Timer(500);
+        _timer = new System.Timers.Timer(250);
         _timer.Stop();
         _timer.Elapsed += Filter;
         _timer.AutoReset = false;
@@ -122,14 +123,24 @@
         }
     }
 
+    private async void OnOptionSelected(Building building)
+    {
+        _selected = building;
+        _searchTerm = $"{building.Street} {building.OrientationNumber}, {building.District}";
+        await SubmitForm();
+    }
+
     private async Task SubmitForm()
     {
+        if (_selected is null)
+            return;
+
         submitted = true;
+        _resultAddresses = null;
 
         while (submitted && !showResult)
         {
-            await Task.Delay(3000);
-
+            await Task.Delay(1000);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
