@@ -3,12 +3,45 @@
 
 <PageTitle>Livity - find your living</PageTitle>
 
-<form @onsubmit="SubmitForm">
-    <label for="inputField">Enter street:</label>
-    <input type="text" id="inputField" @bind-value="@inputValue" />
+<div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
+    <h6 class="text-xl text-subText">Never been that easy</h6>
+    <form @onsubmit="SubmitForm" class="flex flex-row space-x-4 p-2 bg-white w-full rounded-md items-stretch shadow-lg">
+        <img src="./../icons/search.svg" alt="send icon" class="self-center">
+        <input type="text" id="inputField" class="input-field" @bind-value="@inputValue" placeholder="Street, City"/>
 
-    <button type="button">Submit</button>
-</form>
+        <button type="button" class="main-button">
+            <img src="./../icons/send.svg" alt="send icon" class="self-center">
+            <h1 class="self-center">SUBMIT</h1>
+        </button>
+    </form>
+    <!-- 
+    <div class="dropdown-box">
+        <div class="dropdown-item">Letna</div>
+        <hr class="dropdown-divider">
+        <div class="dropdown-item">Jarna</div>
+        <hr class="dropdown-divider">
+        <div class="dropdown-item">Zimna</div>
+        <hr class="dropdown-divider">
+        <div class="dropdown-item">Jesenna</div>
+    </div>
+    -->
+</div>
+
+<div class="flex flex-col justify-center items-center mt-14 w-1/4 mx-auto space-y-2">
+    <img src="./../icons/direction-fork.svg" alt="send icon" class="w-1/6">
+    <p>
+        it should not take longer than 15 minutes for you to get everywhere
+    </p>
+    <button class="more-button">Read more</button>
+</div>
+
+<div class="flex flex-col w-1/5 mx-auto mt-16 space-y-2 items-center">
+    <p>Any questions?</p>
+    <button class="chat-button">
+        <img src="./../icons/chat.svg" alt="chat icon" class="self-center">
+        <h1 class="self-center">Chat with us</h1>
+    </button>
+</div>
 
 @if (submitted && !showResult)
 {
