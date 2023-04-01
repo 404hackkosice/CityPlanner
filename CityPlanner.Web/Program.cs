@@ -1,6 +1,6 @@
-using CityPlanner.Web.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 namespace CityPlanner.Web
 {
@@ -13,7 +13,8 @@ namespace CityPlanner.Web
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+
+            builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("InMemory"));
 
             var app = builder.Build();
 

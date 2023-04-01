@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Devity.Blazor" Version="2023.2.10.2127" />
+    <PackageReference Include="Devity.Extensions" Version="2023.2.10.2127" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CityPlanner.Entities\CityPlanner.Entities.csproj" />
     <ProjectReference Include="..\CityPlanner.Internal\CityPlanner.Internal.csproj" />
   </ItemGroup>
