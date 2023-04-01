@@ -17,6 +17,14 @@
         width: 100%;
         @apply bg-pageBg;
     }
+
+    h1 {
+        @apply text-main font-bold text-4xl;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
 }
 
 @layer components {
@@ -26,13 +34,5 @@
 
     .title-box {
         @apply flex flex-col justify-center w-max mx-auto items-center space-y-2;
-    }
-
-    .title-text {
-        @apply text-main font-bold text-4xl;
-    }
-
-    .title-subtext {
-        @apply text-2xl;
     }
 }
