@@ -32,7 +32,8 @@ module.exports = {
           main: 'hsl(230, 52%, 53%)',
           mainDark: 'hsl(229, 61%, 29%)',
           mainLight: 'hsl(228, 68%, 79%)',
-          subText: 'hsl(222, 35%, 51%)'
+          subText: 'hsl(222, 35%, 51%)',
+          subTextLight: 'hsl(230, 72%, 65%)'
       }
     },
   },
