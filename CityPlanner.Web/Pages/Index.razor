@@ -134,8 +134,12 @@
 
     private async Task SubmitForm()
     {
-        if (_selected is null)
-            return;
+        if (_selected is null) {
+            if(_resultAddresses is null || !_resultAddresses.Any())
+                return;
+
+            OnOptionSelected(_resultAddresses.First());
+        }
 
         submitted = true;
         _resultAddresses = null;
