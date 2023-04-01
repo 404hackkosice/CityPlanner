@@ -1,7 +1,11 @@
 module.exports = {
   content: ["./**/*.{razor,html,cshtml}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Montserrat'],
+      }
+    },
   },
   plugins: [
     require("tailwindcss-animate")
