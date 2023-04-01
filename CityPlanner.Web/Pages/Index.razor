@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Livity - find your living</PageTitle>
 
 <form @onsubmit="SubmitForm">
     <label for="inputField">Enter street:</label>
@@ -9,20 +9,46 @@
     <button type="button">Submit</button>
 </form>
 
-@if (showResult)
+@if (submitted && !showResult)
 {
     <div>
-        Showing score for @inputValue
+        <div class="spinner"></div>
+        Checking for <span>@spinnerText</span>...
+    </div>
+}
+else if (showResult)
+{
+    <div>
+        Results for @inputValue
     </div>
 }
 
 @code {
-    private string? inputValue;
-    private bool showResult;
+    private string? spinnerText;
+    private string[] spinnerTexts = { 
+        "hospitals", "parks", "museums", "kindergardens", "bars", "gardens", "parking spots", "public transport"
+    };
 
-    private async void SubmitForm()
+    private string? inputValue;
+
+    private bool showResult;
+    private bool submitted;
+
+    private async Task SubmitForm()
     {
-        // TODO
+        submitted = true;
+        StateHasChanged();
+
+        int currentTextIndex = 0;
+        while (!showResult)
+        {
+            spinnerText = spinnerTexts[currentTextIndex];
+            currentTextIndex = (currentTextIndex + 1) % spinnerTexts.Length;
+
+            StateHasChanged();
+            await Task.Delay(4000);
+        }
+        
         showResult = true;
     }
 }
