@@ -8,7 +8,7 @@ namespace CityPlanner.Internal.Services.Hosted;
 public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedService>
 {
     public PopulateDbHostedService(IServiceScopeFactory serviceScopeFactory) :
-        base(serviceScopeFactory, TimeSpan.FromSeconds(Constants.Limits.MINIMUM_SECOND_HOSTED_SERVICE_DELAY), TimeSpan.FromDays(1))
+        base(serviceScopeFactory, TimeSpan.FromDays(2), TimeSpan.FromDays(1))
     {
 
     }
