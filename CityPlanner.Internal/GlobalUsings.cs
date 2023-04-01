@@ -2,6 +2,7 @@
 global using CityPlanner.Entities.DTOs;
 global using CityPlanner.Entities.Entities;
 global using CityPlanner.Internal.Data;
+global using CityPlanner.Internal.Helpers;
 global using CityPlanner.Internal.Services;
 global using CityPlanner.Internal.Services.Hosted;
 
