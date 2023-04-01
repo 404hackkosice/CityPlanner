@@ -18,4 +18,8 @@
     <ProjectReference Include="..\CityPlanner.Internal\CityPlanner.Internal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
