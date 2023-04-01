@@ -46,9 +46,6 @@ else if (showResult)
     {
         submitted = true;
 
-        var building = await _db.Addresses.Include(x => x.NearInterestPoints).FirstAsync(x => x.Street.Contains("Irkutská") && x.OrientationNumber.Equals("11"));
-        Console.WriteLine(building.NearInterestPoints.Count);
-
         while (submitted && !showResult)
         {
             await Task.Delay(3000);
