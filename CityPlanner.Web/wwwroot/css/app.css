@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.6 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -31,6 +31,7 @@
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
 5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
 */
 
 html {
@@ -47,6 +48,8 @@ html {
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
+  font-variation-settings: normal;
+  /* 6 */
 }
 
 /*
@@ -419,6 +422,22 @@ video {
   display: none;
 }
 
+html {
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image: url("./../images/title.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom center;
+  height: 100vh;
+  width: 100%;
+  --tw-bg-opacity: 1;
+  background-color: hsl(0 0% 96% / var(--tw-bg-opacity));
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -513,70 +532,6 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.-ml-1 {
-  margin-left: -0.25rem;
-}
-
-.mr-3 {
-  margin-right: 0.75rem;
-}
-
-.h-5 {
-  height: 1.25rem;
-}
-
-.w-5 {
-  width: 1.25rem;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
-.opacity-25 {
-  opacity: 0.25;
-}
-
-.opacity-75 {
-  opacity: 0.75;
-}
-
-html, body {
-  font-family: 'Montserrat', sans-serif;
-  scroll-behavior: smooth;
-}
-
-body {
-  background-image: url("./../images/title.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom center;
-  height: 100vh;
-  width: 100%;
-  --tw-bg-opacity: 1;
-  background-color: hsl(0 0% 96% / var(--tw-bg-opacity));
-}
-
 .page {
   margin-left: auto;
   margin-right: auto;
@@ -599,8 +554,8 @@ body {
 
 .title-box > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
 .title-text {
@@ -614,4 +569,114 @@ body {
 .title-subtext {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.-ml-1 {
+  margin-left: -0.25rem;
+}
+
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.w-5 {
+  width: 1.25rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.text-mainDark {
+  --tw-text-opacity: 1;
+  color: hsl(229 61% 29% / var(--tw-text-opacity));
+}
+
+.opacity-25 {
+  opacity: 0.25;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+  }
+}
+
+@keyframes exit {
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+  }
 }
