@@ -1,10 +1,27 @@
 <div class="w-32 flex flex-col border-t-4 border-subTextLight bg-white rounded-[3px] mt-16 pb-4">
     <img src="./../icons/confetti.svg" alt="chat icon" class="self-center -mt-10 w-1/2">
     <h2 class="text-center font-light">Score</h2>
-    <h2 class="text-green-600 mt-2 text-center font-semibold tracking-widest">@Value/100</h2>
+    <h2 class="@GetColorScore() mt-2 text-center font-semibold tracking-widest">@score/100</h2>
 </div>
+
 
 @code {
     [Parameter]
-    public double Value { get; set; }
+    public double ScoreValue { get; set; }
+
+    private double score = 0;
+
+    protected override void OnAfterRender(bool firstRender) {
+        if (!firstRender)
+            return;
+        score = ScoreValue;
+    }
+  
+    private string GetColorScore() {
+        if (score > 66)
+            return "text-green-600";
+        if (score > 33)
+            return "text-yellow-500";
+        return "text-red-600";
+    }
 }

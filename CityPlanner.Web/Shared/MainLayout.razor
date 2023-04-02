@@ -7,11 +7,11 @@
         <main class="flex-1">
             @if (_currentPage == 0)
             {
-                <Index/>
+                <Kids Building="_building" />
             }
             else if(_currentPage == 1)
             {
-                <Filters/>
+                <Filters Building="_building"/>
             }
             else if (_currentPage == 2)
             {
