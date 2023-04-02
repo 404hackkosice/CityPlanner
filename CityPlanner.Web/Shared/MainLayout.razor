@@ -12,7 +12,7 @@
 
             else if (_currentPage == 1)
             {
-                <Score Results="_results"/>
+                <Results ResultsDTO="_results"/>
             }
         </main>
         <Footer/>
@@ -24,7 +24,7 @@
 
     private ResultsDTO? _results;
 
-    public async void GoToScore(Building building)
+    public async void GoToResults(Building building)
     {
         using var db = _dbContextFactory.CreateDbContext();
 

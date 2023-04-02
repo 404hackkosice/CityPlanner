@@ -102,6 +102,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public ResultsDTO ResultsDTO { get; set; } = null!;
+
     private bool _firstSectionHidden = false;
     private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-full" : null;
 
