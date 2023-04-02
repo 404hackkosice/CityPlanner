@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="relative mt-4 flex flex-col justify-center items-center w-1/2 mx-auto ">
-        <h6 class="mt-4 text-lg text-subText mb-2">Everything is within your walking distance</h6>
+        <h6 class="mt-4 text-lg text-subText mb-2">Everything within your walking distance</h6>
         <div class="relative w-3/4 mx-auto text-5xl text-slate-400">
             <button @onclick='@(() => ScrollCarousel("left"))' class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
             <button @onclick='@(() => ScrollCarousel("right"))' class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
@@ -204,7 +204,11 @@
                                 <img src="/icons/xmark.svg" alt="unassigned icon" class="w-1/5">
                                 <div class="mt-1 tracking-wider">Unassigned</div>
                             }
-                            <div class="font-bold mt-1 leading-5">@(string.IsNullOrWhiteSpace(result.Value.ClosestPoint?.Name) ? "Unnamed" : result.Value.ClosestPoint?.Name)</div>
+
+                            @if (result.Value.ClosestPoint is not null)
+                            {
+                                <div class="font-bold mt-1 leading-5">@(string.IsNullOrWhiteSpace(result.Value.ClosestPoint?.Name) ? "Unnamed" : result.Value.ClosestPoint?.Name)</div>
+                            }
                         <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
                             <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
                                 @if (result.Value.ClosestDistance is not null && result.Value.ClosestDistance.HasValue)
