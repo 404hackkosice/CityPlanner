@@ -46,22 +46,12 @@
         StateHasChanged();
     }
 
-    public void GoToResults()
+    public void GoToResults(UserDTO userDto)
     {
         if (_building is null)
             return;
 
-        _results = new ScoreService(_building, new()
-        {
-           WantsBar = true,
-           WantsCafe = true,
-           WantsDogEnclosure = true,
-           WantsFastFood = true,
-           WantsGym = true,
-           WantsOutsideGym = true,
-           WantsPub = true,
-           WantsRestaurant = true
-            }).GetResults();
+        _results = new ScoreService(_building, userDto).GetResults();
 
         _currentPage = 2;
 

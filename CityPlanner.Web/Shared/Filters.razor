@@ -25,38 +25,51 @@
     </div>
 </div>
 
-<div class="flex flex-col justify-center text-center mt-16">
-    <p class="text-main font-semibold text-3xl">1.</p>
-    <p class="text-2xl font-semibold">What are you looking for?</p>
-    <div class="my-5 max-w-3xl mx-auto grid grid-cols-3 gap-2">
-        <SelectItem Checked=false Id=1 Title="School">
-            SVG 
-        </SelectItem>
-        <SelectItem Checked=false Id=2 Title="School">
-            SVG 
-        </SelectItem>
-        <SelectItem Checked=false Id=3 Title="Work">
-            SVG
-        </SelectItem>
+<EditForm Model="_userDto" OnSubmit="() => _mainLayout.GoToResults(_userDto)">
+    <div class="flex flex-col justify-center text-center mt-16">
+        <p class="text-main font-semibold text-3xl">1.</p>
+        <p class="text-2xl font-semibold">What are you looking for?</p>
+        <div class="my-5 max-w-3xl mx-auto grid grid-cols-3 gap-2">
+            <SelectItem Value=@_userDto.WantsPub ValueChanged="(value) => _userDto.WantsPub = value" Id=1 Title="Pub">
+                SVG 
+            </SelectItem>
+            
+            <SelectItem Value=@_userDto.WantsCafe ValueChanged="(value) => _userDto.WantsCafe = value" Id=2 Title="Café">
+                SVG 
+            </SelectItem>
+            <SelectItem Value=@_userDto.WantsBar ValueChanged="(value) => _userDto.WantsBar = value" Id=3 Title="Bar">
+                SVG
+            </SelectItem>
 
-        <SelectItem Checked=false Id=4 Title="School">
-            SVG
-        </SelectItem>
-        <SelectItem Checked=false Id=5 Title="School">
-            SVG
-        </SelectItem>
-        <SelectItem Checked=false Id=6 Title="School">
-            SVG
-        </SelectItem>
+            <SelectItem Value=@_userDto.WantsDogEnclosure ValueChanged="(value) => _userDto.WantsDogEnclosure = value" Id=4 Title="Dog enclosure">
+                SVG
+            </SelectItem>
+            <SelectItem Value=@_userDto.WantsOutsideGym ValueChanged="(value) => _userDto.WantsOutsideGym = value" Id=5 Title="Outdoors Gym">
+                SVG
+            </SelectItem>
+            <SelectItem Value=@_userDto.WantsGym ValueChanged="(value) => _userDto.WantsGym = value" Id=6 Title="Indoors Gym">
+                SVG
+            </SelectItem>
+            <SelectItem Value=@_userDto.WantsFastFood ValueChanged="(value) => _userDto.WantsFastFood = value" Id=7 Title="Fast Food">
+                SVG
+            </SelectItem>
+            <SelectItem Value=@_userDto.WantsRestaurant ValueChanged="(value) => _userDto.WantsRestaurant = value" Id=8 Title="Indoors Gym">
+                SVG
+            </SelectItem>
+            
+        </div>
+        <button type="submit" class="main-button flex items-center gap-2 mt-3 px-16 py-2 uppercase text-sm">
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M16 18H18V6H16M6 18L14.5 12L6 6V18Z" fill="currentColor" />
+            </svg>
+        </button>
     </div>
-    <button class="main-button flex items-center gap-2 mt-3 px-16 py-2 uppercase text-sm">
-        Next
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M16 18H18V6H16M6 18L14.5 12L6 6V18Z" fill="currentColor" />
-        </svg>
-    </button>
-</div>
+</EditForm>
 
 @code {
-    
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
+    private UserDTO _userDto = new();
 }

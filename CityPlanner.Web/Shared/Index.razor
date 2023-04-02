@@ -128,7 +128,8 @@
             if(_resultAddresses is null || !_resultAddresses.Any())
                 return;
 
-            OnOptionSelected(_resultAddresses.First());
+            _selected = building;
+            _searchTerm = $"{building.Street} {building.OrientationNumber}, {building.District}";
         }
 
         submitted = true;
