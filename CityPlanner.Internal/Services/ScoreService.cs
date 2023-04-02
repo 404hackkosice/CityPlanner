@@ -34,9 +34,25 @@
                 CafeResults = ReturnResultFor(_userData.WantsCafe, 2, Constants.PointTypes.CAFE),
                 FastFoodResults = ReturnResultFor(_userData.WantsFastFood, 2, Constants.PointTypes.FAST_FOOD),
                 DogEnclosuresResults = ReturnResultFor(_userData.WantsDogEnclosure, 2, Constants.PointTypes.DOG_ENCLOSURE),
-
+                PublicElementarySchoolResults = ReturnResultFor(_userData.WantsPublicElementarySchool, (int) _userData.Children, Constants.PointTypes.PUBLIC_ELEMENTARY_SCHOOL),
+                PrivateElementarySchoolResults = ReturnResultFor(_userData.WantsPrivateElementarySchool, (int)_userData.Children, Constants.PointTypes.PRIVATE_ELEMENTARY_SCHOOL),
+                ReligiousElementarySchoolResults = ReturnResultFor(_userData.WantsReligiousElementarySchool, (int)_userData.Children, Constants.PointTypes.RELIGIOUS_ELEMENTARY_SCHOOL),
+                PublicKindergartenResults = ReturnResultFor(_userData.WantsPublicKindergarten, (int)_userData.Children, Constants.PointTypes.PUBLIC_KINDERGARTEN),
+                PrivateKindergartenResults = ReturnResultFor(_userData.WantsPrivateKindergarten, (int)_userData.Children, Constants.PointTypes.PRIVATE_KINDERGARTEN),
+                ReligiousKindergartenResults = ReturnResultFor(_userData.WantsReligiousKindergarten, (int)_userData.Children, Constants.PointTypes.RELIGIOUS_KINDERGARTEN),
+                PlaygroundResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.PLAYGROUND),
+                GeneralClinicForChildrenResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.GENERAL_CLINIC_CHILDREN),
                 Score = Math.Round(_points / _maxPoints * 100, 1)
             };
+
+            if (results.DogEnclosuresResults.TotalCount > 0)
+                results.PetLovers = true;
+
+            if (results.BarResults.TotalCount > 0)
+                results.NightLife = true;
+
+            if (results.PlaygroundResults.TotalCount > 0 && results.GeneralClinicForChildrenResults.TotalCount > 0)
+                results.ForKids = true;
 
             return results;
         }

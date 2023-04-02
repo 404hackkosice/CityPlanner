@@ -1,8 +1,5 @@
 ﻿@implements IDisposable
-@page "/"
-@inject DataContext _db
-
-<PageTitle>Livity - Living that you're looking for</PageTitle>
+@inject IDbContextFactory<DataContext> _dbContextFactory
 
 <div class="title-box">
     <div class="title-subtext">
@@ -24,7 +21,7 @@
         }
         else {
             <p>
-                Never been this easy
+                Easier than ever before
             </p>
         }
         
@@ -67,12 +64,15 @@
 <div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
     <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
     <p class="text-lg text-subText text-center">
-        it should not take longer than 15 minutes for you to get everywhere
+        it should not take longer than 15 minutes for you to get anywhere
     </p>
     <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
 </div>
 
 @code {
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
@@ -87,6 +87,8 @@
 
     private Building? _selected;
     private List<Building>? _resultAddresses = new();
+
+    private DateTime? _latestUpdate;
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -122,24 +124,24 @@
 
     private async Task SubmitForm()
     {
-        if (_selected is null)
-        {
-            if (_resultAddresses is not null && _resultAddresses.Any())
-            {
-                OnOptionSelected(_resultAddresses[0]);
-            }
-            return;
+        if (_selected is null) {
+            if(_resultAddresses is null || !_resultAddresses.Any())
+                return;
+
+            OnOptionSelected(_resultAddresses.First());
         }
 
         submitted = true;
         _resultAddresses = null;
 
-        while (submitted && !showResult)
+        for(int i=0; i<2; i++)
         {
             await Task.Delay(1000);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
+
+        _mainLayout.GoToResults(_selected);
     }
 
     private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)
@@ -150,13 +152,21 @@
             return;
         }
 
-        _resultAddresses = await _db.Addresses
+        _latestUpdate = DateTime.Now;
+
+        using var db = _dbContextFactory.CreateDbContext();
+        var result = await db.Addresses
             .Where(x => x.SearchableAddress.Contains(_searchTerm.NormalizeForSearch()))
-            .Take(5)
             .OrderBy(x => x.Street)
             .ThenBy(x => x.OrientationNumber)
+            .Take(5)
             .AsNoTracking()
             .ToListAsync();
+
+        if (_latestUpdate is not null && _latestUpdate > DateTime.Now)
+            return;
+
+        _resultAddresses = result;
 
         await InvokeAsync(StateHasChanged);
     }
