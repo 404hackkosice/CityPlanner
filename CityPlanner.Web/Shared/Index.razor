@@ -57,7 +57,7 @@
                 <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
                     @foreach (var result in _resultAddresses)
                     {
-                            <div class="dropdown-item" @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</div>
+                            <button tabindex="0" class="flex flex-start dropdown-item text-left focus:bg-slate-300 focus:border-l-4"  @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</button>
                     }
                 </div>
             }
