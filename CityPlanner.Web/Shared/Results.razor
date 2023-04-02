@@ -75,7 +75,7 @@
         <div class="max-w-xl mx-auto min-w-0">
             <div class="carousel scroll-smooth overflow-x-scroll scrollbar-hide flex space-x-5 font-light">
                 @foreach(var result in DictionaryOfResults.OrderByDescending(x => x.Value.ClosestDistance != null).ThenBy(x => x.Value.ClosestDistance)) {
-                        <div class="w-full flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
+                        <div class="w-full flex flex-wrap flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
                             @if (result.Key.Equals(Constants.PointTypes.BAR))
                             {
                                 <img src="/icons/bar.svg" alt="bar icon" class="w-1/5">
@@ -207,7 +207,7 @@
 
                             @if (result.Value.ClosestPoint is not null)
                             {
-                                <div class="font-bold mt-1 leading-5">@(string.IsNullOrWhiteSpace(result.Value.ClosestPoint?.Name) ? "Unnamed" : result.Value.ClosestPoint?.Name)</div>
+                                <p class="whitespace-pre-line line-clamp-2 font-bold mt-1 leading-5 truncate">@(string.IsNullOrWhiteSpace(result.Value.ClosestPoint?.Name) ? "Unnamed" : result.Value.ClosestPoint?.Name)</p>
                             }
                         <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
                             <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
