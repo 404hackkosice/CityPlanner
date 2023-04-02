@@ -1,5 +1,5 @@
 @using System.Linq.Expressions;
-<div class="max-w-lg h-full min-w-[12rem] relative">
+<div class="animate-in fade-in delay-50 max-w-lg h-full min-w-[12rem] relative">
   <input type="checkbox" id="@Id" class="hidden peer" value=@Value @onchange="UpdateParent" />
   <label for="@Id" class="w-full h-full group py-4 px-2 hover:bg-slate-50 border-[3px] border-transparent cursor-pointer select-none bg-white peer-checked:bg-slate-50 peer-checked:border-green-600 rounded transition-all flex gap-2 flex-col items-center justify-center w-fit">
     <div class="text-main group-hover:scale-[102%]">@ChildContent</div>
