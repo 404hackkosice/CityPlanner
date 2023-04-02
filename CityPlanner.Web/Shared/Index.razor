@@ -6,8 +6,8 @@
         Find your
     </div>
     <div class="relative title-text w-max">
-        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-6">
-        PERFECT PLACE
+        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-7 uppercase">
+            @introText
         </h1>
     </div>
 </div>
@@ -73,6 +73,12 @@
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
 
+    private string? introText = "unique place";
+
+    private string[] introTexts = {
+        "perfect place", "cozy nest", "new home", "happy corner"
+    };
+
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
@@ -83,12 +89,14 @@
     private bool showResult;
     private bool submitted;
     private System.Timers.Timer? _timer;
+    private System.Timers.Timer? _timerLoop;
     private string? _searchTerm;
 
     private Building? _selected;
     private List<Building>? _resultAddresses = new();
 
     private DateTime? _latestUpdate;
+
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -99,7 +107,17 @@
         _timer.Stop();
         _timer.Elapsed += Filter;
         _timer.AutoReset = false;
+
+        _timerLoop = new System.Timers.Timer(4000);
+        _timerLoop.Start();
+        _timerLoop.Elapsed += async (Object? obj, ElapsedEventArgs e) =>
+        {
+            introText = introTexts[(Array.IndexOf(introTexts, introText) + 1) % introTexts.Length];
+            await InvokeAsync(StateHasChanged);
+        };
+        _timerLoop.AutoReset = true;
     }
+
 
     private void OnSearchTextChanged(ChangeEventArgs e)
     {
@@ -172,5 +190,8 @@
     }
 
     void IDisposable.Dispose()
-        => _timer?.Dispose();
+     {
+            _timer?.Dispose();
+            _timerLoop?.Dispose();
+     }
 }
