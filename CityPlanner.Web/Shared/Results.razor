@@ -1,4 +1,4 @@
-
+@inject IJSRuntime _jsRuntime
 @page "/results"
 
 <div class="w-full h-[93vh] overflow-hidden bg-pageBg">
@@ -6,6 +6,7 @@
     <div class="w-full h-[97vh] top-0 left-0 fixed overflow-hidden">
         <img src="/images/title.svg" alt="bg photo" class="object-cover @_bgWNormalClass h-auto w-full bottom-0 absolute z-0 transition ease-linear duration-500">
     </div>
+
     <div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen">
         <div id="asd" class="flex flex-row justify-center w-full mt-2">
             <button class="text-xs text-subText bg-pageBg flex flex-row space-x-2" @onclick="() => _mainLayout.GoToIndex()">
@@ -24,11 +25,12 @@
                 </h1>
             </div>
         </div>
+    </div>
 
-    <div class="mt-16 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto relative">
+    <div class="mt-44 flex flex-col justify-center items-center space-y-2 w-3/4 mx-auto relative">
         <h6 class="text-lg text-subText">What you&apos;ve got</h6>
-        <div class="flex flex-row space-x-12 justify-center font-light">
-            <div class="flex flex-row items-stretch space-x-1">
+        <div class="flex flex-row space-x-10 justify-center font-light w-full">
+            <div class="flex flex-row items-stretch space-x-1 whitespace-nowrap">
                 @if (ResultsDTO.ForKids)
                 {
                     <Checkmark />
@@ -41,7 +43,7 @@
                     For kids
                 </div>
             </div>
-            <div class="flex flex-row items-stretch space-x-1">
+            <div class="flex flex-row items-stretch space-x-1 whitespace-nowrap">
                 @if (ResultsDTO.NightLife)
                 {
                     <Checkmark />
@@ -54,7 +56,8 @@
                     Night life
 
                 </div>
-                <div class="flex flex-row items-stretch space-x-1">
+            </div>
+                <div class="flex flex-row items-stretch space-x-1 whitespace-nowrap">
                     @if (ResultsDTO.PetLovers)
                     {
                         <Checkmark />
@@ -67,14 +70,13 @@
                         Pet lovers
                     </div>
                 </div>
-            </div>
         </div>
-
-    <div class="relative mt-6 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto relative">
+    </div>
+    <div class="relative mt-6 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto ">
         <h6 class="relative top-[0.75rem] text-lg text-subText mb-0">Everything is within your walking distance</h6>
         <div class="relative w-3/4 mx-auto text-5xl text-slate-400">
-            <button @onclick="@(() => ScrollCarousel("left"))" class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
-            <button @onclick="@(() => ScrollCarousel("right"))" class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
+            <button @onclick='@(() => ScrollCarousel("left"))' class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
+            <button @onclick='@(() => ScrollCarousel("right"))' class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
         </div>
         <div class="max-w-xl mx-auto min-w-0">
             <div class="carousel scroll-smooth overflow-x-scroll scrollbar-hide flex space-x-5 font-light">
@@ -90,9 +92,7 @@
                     <div class="text-subText text-xs mt-2">+ 4 more</div>
                 </div>
 
-
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
                     <div class="mt-1 tracking-wider">School</div>
                     <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
@@ -102,7 +102,6 @@
                     </div>
                     <div class="text-subText text-xs mt-2">+ 4 more</div>
                 </div>
-
 
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
@@ -116,7 +115,6 @@
                 </div>
 
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
                     <div class="mt-1 tracking-wider">School</div>
                     <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
@@ -128,26 +126,28 @@
                 </div>
             </div>
         </div>
+    
 
         <div class="-mt-4 w-max mx-auto">
             <Score ScoreValue="@ResultsDTO.Score"></Score>
         </div>
 
 
-    <div class="flex flex-row justify-center mt-6">
-        <button class="animate-bounce w-6 h-6" @onclick="Scroll">
-            <img src="/icons/down-arrow.svg" alt="arrow down">
-        </button>
-    </div>
-
-    <div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
         <div class="flex flex-row justify-center mt-6">
             <button class="animate-bounce w-6 h-6" @onclick="Scroll">
-                <img src="/icons/down-arrow.svg" alt="arrow down" class=" rotate-180">
+                <img src="/icons/down-arrow.svg" alt="arrow down">
             </button>
         </div>
-        <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
-            <GoogleMaps Building="Building"/>
+
+        <div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
+            <div class="flex flex-row justify-center mt-6">
+                <button class="animate-bounce w-6 h-6" @onclick="Scroll">
+                    <img src="/icons/down-arrow.svg" alt="arrow down" class=" rotate-180">
+                </button>
+            </div>
+            <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
+                <GoogleMaps Building="Building"/>
+            </div>
         </div>
     </div>
 </div>
@@ -184,11 +184,6 @@
         if (min > 15)
             return "text-red-500";
         return "text-green-600";
-    }
-
-    private string GetColorScore(int score)
-    {
-        return "a";
     }
 
     private async Task ScrollCarousel(string direction)
