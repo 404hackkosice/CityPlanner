@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime _js;
+
+<div id="map" style="height: 100%"></div>
+
+@code {
+    [Parameter]
+    public Building Building { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _js.InvokeVoidAsync("initMap", "map", Building.X, Building.Y, Building.NearInterestPoints.Select(x => new NearPointsJsDTO()
+            {
+                X = x.X,
+                Y = x.Y,
+                Title = x.Name,
+                Type = x.Type
+            }));
+        }
+    }
+}
