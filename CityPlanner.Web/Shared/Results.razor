@@ -1,13 +1,8 @@
 @inject IJSRuntime _jsRuntime
 @page "/results"
 
-<div class="w-full h-[93vh] overflow-hidden bg-pageBg">
-    
-    <div class="w-full h-[97vh] top-0 left-0 fixed overflow-hidden">
-        <img src="/images/title.svg" alt="bg photo" class="object-cover @_bgWNormalClass h-auto w-full bottom-0 absolute z-0 transition ease-linear duration-500">
-    </div>
-
-    <div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen">
+<div>
+    <div class="@_firstSectionHiddenClass transform transition duration-500 mt-4">
         <div id="asd" class="flex flex-row justify-center w-full mt-2">
             <button class="text-xs text-subText bg-pageBg flex flex-row space-x-2" @onclick="() => _mainLayout.GoToIndex()">
                 <img src="/icons/repeat.svg" alt="school icon" class="w-1/5">
@@ -15,7 +10,7 @@
             </button>
         </div>
 
-        <div class="title-box mt-7">
+        <div class="title-box mt-8">
             <div class="title-subtext">
                 What we&apos;ve discovered at
             </div>
@@ -25,10 +20,9 @@
                 </h1>
             </div>
         </div>
-    </div>
 
-    <div class="mt-44 flex flex-col justify-center items-center space-y-2 w-3/4 mx-auto relative">
-        <h6 class="text-lg text-subText">What you&apos;ve got</h6>
+    <div class="flex flex-col justify-center items-center space-y-2 w-3/4 mt-16 mx-auto">
+        <h6 class="text-lg text-subText mb-1">What you&apos;ve got</h6>
         <div class="flex flex-row space-x-10 justify-center font-light w-full">
             <div class="flex flex-row items-stretch space-x-1 whitespace-nowrap">
                 @if (ResultsDTO.ForKids)
@@ -72,8 +66,8 @@
                 </div>
         </div>
     </div>
-    <div class="relative mt-6 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto ">
-        <h6 class="relative top-[0.75rem] text-lg text-subText mb-0">Everything is within your walking distance</h6>
+    <div class="relative mt-4 flex flex-col justify-center items-center w-1/2 mx-auto ">
+        <h6 class="mt-4 text-lg text-subText mb-2">Everything is within your walking distance</h6>
         <div class="relative w-3/4 mx-auto text-5xl text-slate-400">
             <button @onclick='@(() => ScrollCarousel("left"))' class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
             <button @onclick='@(() => ScrollCarousel("right"))' class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
@@ -128,26 +122,26 @@
         </div>
     
 
-        <div class="-mt-4 w-max mx-auto">
+        <div class="w-max mx-auto">
             <Score ScoreValue="@ResultsDTO.Score"></Score>
         </div>
 
 
-        <div class="flex flex-row justify-center mt-6">
+        <div class="flex flex-row justify-center mt-4">
             <button class="animate-bounce w-6 h-6" @onclick="Scroll">
                 <img src="/icons/down-arrow.svg" alt="arrow down">
             </button>
         </div>
-
-        <div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
-            <div class="flex flex-row justify-center mt-6">
-                <button class="animate-bounce w-6 h-6" @onclick="Scroll">
-                    <img src="/icons/down-arrow.svg" alt="arrow down" class=" rotate-180">
-                </button>
-            </div>
-            <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
-                <GoogleMaps Building="Building"/>
-            </div>
+    </div>
+    </div>
+    <div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
+        <div class="flex flex-row justify-center mt-6">
+            <button class="animate-bounce w-6 h-6" @onclick="Scroll">
+                <img src="/icons/down-arrow.svg" alt="arrow down" class="rotate-180">
+            </button>
+        </div>
+        <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
+            <GoogleMaps Building="Building" />
         </div>
     </div>
 </div>
@@ -164,7 +158,7 @@
     public Building Building { get; set; } = null!;
 
     private bool _firstSectionHidden = false;
-    private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-full" : null;
+    private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-[110vh]" : null;
 
     private bool _secondSectionHidden = true;
     private string? _secondSectionHiddenClass => _secondSectionHidden ? "translate-y-full" : null;
