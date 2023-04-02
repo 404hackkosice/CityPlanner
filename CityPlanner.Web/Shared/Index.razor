@@ -6,8 +6,8 @@
         Find your
     </div>
     <div class="relative title-text w-max">
-        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-6">
-        PERFECT PLACE
+        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-7 uppercase">
+            @introText
         </h1>
     </div>
 </div>
@@ -30,7 +30,7 @@
         <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                @if (submitted && !showResult)
+                @if (submitted && !showResult || loadingData && !showResult)
                 {
                     <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24">
@@ -73,6 +73,12 @@
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
 
+    private string? introText = "unique place";
+
+    private string[] introTexts = {
+        "perfect place", "cozy nest", "new home", "happy corner"
+    };
+
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
@@ -82,7 +88,10 @@
 
     private bool showResult;
     private bool submitted;
+    private bool loadingData;
+
     private System.Timers.Timer? _timer;
+    private System.Timers.Timer? _timerLoop;
     private string? _searchTerm;
 
     private Building? _selected;
@@ -99,7 +108,17 @@
         _timer.Stop();
         _timer.Elapsed += Filter;
         _timer.AutoReset = false;
+
+        _timerLoop = new System.Timers.Timer(4000);
+        _timerLoop.Start();
+        _timerLoop.Elapsed += async (Object? obj, ElapsedEventArgs e) =>
+        {
+            introText = introTexts[(Array.IndexOf(introTexts, introText) + 1) % introTexts.Length];
+            await InvokeAsync(StateHasChanged);
+        };
+        _timerLoop.AutoReset = true;
     }
+
 
     private void OnSearchTextChanged(ChangeEventArgs e)
     {
@@ -154,6 +173,8 @@
         }
 
         _latestUpdate = DateTime.Now;
+        loadingData = true;
+        await InvokeAsync(StateHasChanged);
 
         using var db = _dbContextFactory.CreateDbContext();
         var result = await db.Addresses
@@ -169,9 +190,13 @@
 
         _resultAddresses = result;
 
+        loadingData = false;
         await InvokeAsync(StateHasChanged);
     }
 
     void IDisposable.Dispose()
-        => _timer?.Dispose();
+     {
+            _timer?.Dispose();
+            _timerLoop?.Dispose();
+     }
 }
