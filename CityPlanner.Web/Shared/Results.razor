@@ -78,10 +78,10 @@
         <h6 class="relative top-[0.75rem] text-lg text-subText mb-0">Everything is within your walking distance</h6>
         <div class="relative w-3/4 mx-auto text-5xl text-slate-400">
             <button @onclick="@(() => ScrollCarousel("left"))" class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
-            <button @onclick="@(() => ScrollCarousel("right"))" class="absolute top-14 right-[-1rem] cursor-pointer hover:text-main">›</button>
+            <button @onclick="@(() => ScrollCarousel("right"))" class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
         </div>
         <div class="max-w-xl mx-auto min-w-0">
-            <div class="overflow-x-clip flex space-x-4 font-light">
+            <div class="carousel scroll-smooth overflow-x-scroll scrollbar-hide flex space-x-5 font-light">
                 
                 <div class="w-full flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
@@ -192,11 +192,11 @@
     {
         Console.WriteLine(direction);
         if(direction == "left") {
-            //  _jsRuntime.InvokeVoidAsync("history.go", -1))
-        } 
+            await _jsRuntime.InvokeVoidAsync("moveCarousel", direction);
+        }
         else
         {
-            
+            await _jsRuntime.InvokeVoidAsync("moveCarousel", direction);
         }
     }
 }
