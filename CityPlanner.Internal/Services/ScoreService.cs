@@ -42,7 +42,7 @@
                 ReligiousKindergartenResults = ReturnResultFor(_userData.WantsReligiousKindergarten, (int)_userData.Children, Constants.PointTypes.RELIGIOUS_KINDERGARTEN),
                 PlaygroundResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.PLAYGROUND),
                 GeneralClinicForChildrenResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.GENERAL_CLINIC_CHILDREN),
-                Score = Math.Round(_points / _maxPoints * 100, 1)
+                Score = Math.Round(_points / _maxPoints * 100)
             };
 
             if (results.DogEnclosuresResults.TotalCount > 0)
