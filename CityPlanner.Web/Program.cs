@@ -18,7 +18,10 @@ namespace CityPlanner.Web
 
             builder.Services.AddDbContextFactory<DataContext>(options =>
             {
-                options.UseMySql(builder.Configuration.GetConnectionString("MainDB"), ServerVersion.Create(new Version("5.6.42"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql));
+                options.UseMySql(builder.Configuration.GetConnectionString("MainDB"), ServerVersion.Create(new Version("5.6.42"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql), options =>
+                {
+                    options.CommandTimeout(3600);
+                });
             });
 
             var app = builder.Build();
