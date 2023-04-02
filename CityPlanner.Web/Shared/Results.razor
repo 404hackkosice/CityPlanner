@@ -7,7 +7,7 @@
         </div>
         <div class="relative title-text w-max">
             <h1 class="">
-                Letna 9, Kosice
+                @Building.Street @Building.OrientationNumber, @Building.District
             </h1>
         </div>
     </div>
@@ -16,21 +16,41 @@
         <h6 class="text-lg text-subText">What you&apos;ve got</h6>
         <div class="flex flex-row space-x-12 justify-center font-light">
             <div class="flex flex-row items-stretch space-x-1">
-                <Checkmark></Checkmark>
+                @if (ResultsDTO.ForKids)
+                {
+                    <Checkmark/>
+                } else
+                {
+                    <Cross/>
+                }
                 <div>
                     For kids
                 </div>
             </div>
             <div class="flex flex-row items-stretch space-x-1">
-                <Checkmark></Checkmark>
+                @if (ResultsDTO.NightLife)
+                {
+                    <Checkmark />
+                }
+                else
+                {
+                    <Cross />
+                }
                 <div>
                     Night life
                 </div>
             </div>
             <div class="flex flex-row items-stretch space-x-1">
-                <Checkmark></Checkmark>
+                @if (ResultsDTO.PetLovers)
+                {
+                    <Checkmark />
+                }
+                else
+                {
+                    <Cross />
+                }
                 <div>
-                    Nature
+                    Pet lovers
                 </div>
             </div>
         </div>
@@ -75,7 +95,7 @@
     </div>
 
     <div class="-mt-4 w-max mx-auto">
-        <Score></Score>
+        <Score Value="@ResultsDTO.Score"/>
     </div>
 
     <div class="flex flex-row justify-center mt-8">
@@ -104,6 +124,9 @@
 @code {
     [Parameter]
     public ResultsDTO ResultsDTO { get; set; } = null!;
+
+    [Parameter]
+    public Building Building { get; set; } = null!;
 
     private bool _firstSectionHidden = false;
     private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-full" : null;
