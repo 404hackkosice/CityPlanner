@@ -74,50 +74,151 @@
         </div>
         <div class="max-w-xl mx-auto min-w-0">
             <div class="carousel scroll-smooth overflow-x-scroll scrollbar-hide flex space-x-5 font-light">
-                
-                <div class="w-full flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-                    <img src="/icons/school.svg" alt="school icon" class="w-1/5">
-                    <div class="mt-1 tracking-wider">School</div>
-                    <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
-                    <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
-                        <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
-                        <div class="self-center @GetColorTime(5)">5 min</div>
-                    </div>
-                    <div class="text-subText text-xs mt-2">+ 4 more</div>
-                </div>
+                @foreach(var result in DictionaryOfResults.OrderByDescending(x => x.Value.ClosestDistance != null).ThenBy(x => x.Value.ClosestDistance)) {
+                        <div class="w-full flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
+                            @if (result.Key.Equals(Constants.PointTypes.BAR))
+                            {
+                                <img src="/icons/bar.svg" alt="bar icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Bar</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.CAFE))
+                            {
+                                <img src="/icons/cafe.svg" alt="cafe icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Café</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.CHEMIST))
+                            {
+                                <img src="/icons/cafe.svg" alt="chemist icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Café</div>
+                            } else if (result.Key.Equals(Constants.PointTypes.CONVENIENCE))
+                            {
+                                <img src="/icons/supermarket.svg" alt="convenience icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Convenience</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.DENTAL_CLINIC))
+                            {
+                                <img src="/icons/dentist.svg" alt="dentist icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Dentist</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.DOG_ENCLOSURE))
+                            {
+                                <img src="/icons/dog.svg" alt="dog icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Dog Enclosure</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.FAST_FOOD))
+                            {
+                                <img src="/icons/food.svg" alt="fast food icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Fast Food</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.GENERAL_CLINIC_ADULTS))
+                            {
+                                <img src="/icons/doctor.svg" alt="generic clinic for adults icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Adult General Clinic</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.GENERAL_CLINIC_CHILDREN))
+                            {
+                                <img src="/icons/doctor.svg" alt="general clinic for children icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Children's General Clinic</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.GYM))
+                            {
+                                <img src="/icons/gym.svg" alt="gym icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Inside Gym</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.OUTSIDE_GYM))
+                            {
+                                <img src="/icons/gymnastic.svg" alt="outside gym icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Outside Gym</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PARCEL_LOCKER))
+                            {
+                                <img src="/icons/post.svg" alt="parcel locker icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Parcel locker</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PHARMACY))
+                            {
+                                <img src="/icons/pharmacy.svg" alt="pharmacy icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Pharmacy</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PLAYGROUND))
+                            {
+                                <img src="/icons/confetti.svg" alt="playground icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Playground</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.POST_OFFICE))
+                            {
+                                <img src="/icons/post.svg" alt="post office icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Post Office</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PUB))
+                            {
+                                <img src="/icons/beer.svg" alt="pub icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Pub</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.RESTAURANT))
+                            {
+                                <img src="/icons/food.svg" alt="restaurant icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Restaurant</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.SUPERMARKET))
+                            {
+                                <img src="/icons/supermarket.svg" alt="supermarket icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Supermarket</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PUBLIC_ELEMENTARY_SCHOOL))
+                            {
+                                <img src="/icons/school.svg" alt="public elementary school icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Public Elementary School</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PRIVATE_ELEMENTARY_SCHOOL))
+                            {
+                                <img src="/icons/school.svg" alt="private elementary school icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Private Elementary School</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.RELIGIOUS_ELEMENTARY_SCHOOL))
+                            {
+                                <img src="/icons/school.svg" alt="religious elementary school icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Religious Elementary School</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PUBLIC_KINDERGARTEN))
+                            {
+                                <img src="/icons/school.svg" alt="public kindergarten icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Public Kindergarten</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.PRIVATE_KINDERGARTEN))
+                            {
+                                <img src="/icons/school.svg" alt="private kindergarten icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Private Kindergarten</div>
+                            }
+                            else if (result.Key.Equals(Constants.PointTypes.RELIGIOUS_KINDERGARTEN))
+                            {
+                                <img src="/icons/school.svg" alt="religious kindergarten icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Religious Kindergarten</div>
+                            } else
+                            {
+                                <img src="/icons/xmark.svg" alt="unassigned icon" class="w-1/5">
+                                <div class="mt-1 tracking-wider">Unassigned</div>
+                            }
+                            <div class="font-bold mt-1 leading-5">@(string.IsNullOrWhiteSpace(result.Value.ClosestPoint?.Name) ? "Unnamed" : result.Value.ClosestPoint?.Name)</div>
+                        <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
+                            <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
+                                @if (result.Value.ClosestDistance is not null && result.Value.ClosestDistance.HasValue)
+                                {
+                                    <div class="self-center @GetColorTime(DistanceToTime(result.Value.ClosestDistance.Value))">@DistanceToTime(result.Value.ClosestDistance.Value) min</div>
+                                } else
+                                {
 
-                <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-                    <img src="/icons/school.svg" alt="school icon" class="w-1/5">
-                    <div class="mt-1 tracking-wider">School</div>
-                    <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
-                    <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
-                        <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
-                        <div class="self-center @GetColorTime(20)">20 min</div>
+                                    <div class="self-center @GetColorTime(16)">> 15 min</div>
+                                }
+                            </div>
+                        @if (result.Value.TotalCount > 1)
+                        {
+                            <div class="text-subText text-xs mt-2">+ @(
+                            result.Value.TotalCount - 1
+                            ) more</div>
+                        }
                     </div>
-                    <div class="text-subText text-xs mt-2">+ 4 more</div>
-                </div>
-
-                <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-                    <img src="/icons/school.svg" alt="school icon" class="w-1/5">
-                    <div class="mt-1 tracking-wider">School</div>
-                    <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
-                    <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
-                        <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
-                        <div class="self-center @GetColorTime(5)">5 min</div>
-                    </div>
-                    <div class="text-subText text-xs mt-2">+ 4 more</div>
-                </div>
-
-                <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
-                    <img src="/icons/school.svg" alt="school icon" class="w-1/5">
-                    <div class="mt-1 tracking-wider">School</div>
-                    <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
-                    <div class="mt-1 text-xs font-semibold flex flex-row space-x-2 items-stretch">
-                        <img src="/icons/time.svg" alt="time icon" class="w-1/6 self-center">
-                        <div class="self-center @GetColorTime(5)">5 min</div>
-                    </div>
-                    <div class="text-subText text-xs mt-2">+ 4 more</div>
-                </div>
+                }
             </div>
         </div>
     
@@ -147,7 +248,7 @@
 </div>
 
 @code {
-    
+
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
 
@@ -156,6 +257,8 @@
 
     [Parameter]
     public Building Building { get; set; } = null!;
+
+    private Dictionary<string, PerTypeResultsDTO> DictionaryOfResults { get; set; } = new();
 
     private bool _firstSectionHidden = false;
     private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-[110vh]" : null;
@@ -166,19 +269,57 @@
     private bool _bgWNormal = true;
     private string? _bgWNormalClass => _bgWNormal ? null : "scale-110";
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(!firstRender)
+            return;
+
+        DictionaryOfResults.Add(Constants.PointTypes.BAR, ResultsDTO.BarResults);
+        DictionaryOfResults.Add(Constants.PointTypes.CAFE, ResultsDTO.CafeResults);
+        DictionaryOfResults.Add(Constants.PointTypes.CHEMIST, ResultsDTO.ChemistResults);
+        DictionaryOfResults.Add(Constants.PointTypes.CONVENIENCE, ResultsDTO.ConvenienceResults);
+        DictionaryOfResults.Add(Constants.PointTypes.DENTAL_CLINIC, ResultsDTO.DentalClinicResults);
+        DictionaryOfResults.Add(Constants.PointTypes.DOG_ENCLOSURE, ResultsDTO.DogEnclosuresResults);
+        DictionaryOfResults.Add(Constants.PointTypes.FAST_FOOD, ResultsDTO.FastFoodResults);
+        DictionaryOfResults.Add(Constants.PointTypes.GENERAL_CLINIC_ADULTS, ResultsDTO.GeneralClinicForAdultsResults);
+        DictionaryOfResults.Add(Constants.PointTypes.GENERAL_CLINIC_CHILDREN, ResultsDTO.GeneralClinicForChildrenResults);
+        DictionaryOfResults.Add(Constants.PointTypes.GYM, ResultsDTO.GymResults);
+        DictionaryOfResults.Add(Constants.PointTypes.OUTSIDE_GYM, ResultsDTO.OutsideGymResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PARCEL_LOCKER, ResultsDTO.ParcelLockerResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PHARMACY, ResultsDTO.PharmacyResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PLAYGROUND, ResultsDTO.PlaygroundResults);
+        DictionaryOfResults.Add(Constants.PointTypes.POST_OFFICE, ResultsDTO.PostOfficeResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PRIVATE_ELEMENTARY_SCHOOL, ResultsDTO.PrivateElementarySchoolResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PUBLIC_ELEMENTARY_SCHOOL, ResultsDTO.PublicElementarySchoolResults);
+        DictionaryOfResults.Add(Constants.PointTypes.RELIGIOUS_ELEMENTARY_SCHOOL, ResultsDTO.ReligiousElementarySchoolResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PUBLIC_KINDERGARTEN, ResultsDTO.PublicKindergartenResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PRIVATE_KINDERGARTEN, ResultsDTO.PrivateKindergartenResults);
+        DictionaryOfResults.Add(Constants.PointTypes.RELIGIOUS_KINDERGARTEN, ResultsDTO.ReligiousKindergartenResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PUBLIC_TRANSPORT, ResultsDTO.PublicTransportResults);
+        DictionaryOfResults.Add(Constants.PointTypes.PUB, ResultsDTO.PubResults);
+        DictionaryOfResults.Add(Constants.PointTypes.RESTAURANT, ResultsDTO.RestaurantResults);
+        DictionaryOfResults.Add(Constants.PointTypes.SUPERMARKET, ResultsDTO.SupermarketResults);
+
+
+        StateHasChanged();
+    }
+
     private void Scroll()
     {
         _firstSectionHidden = !_firstSectionHidden;
         _secondSectionHidden = !_secondSectionHidden;
-         _bgWNormal = !_bgWNormal;
+        _bgWNormal = !_bgWNormal;
     }
 
-    private string GetColorTime(int min)
+    private string GetColorTime(double min)
     {
         if (min > 15)
             return "text-red-500";
         return "text-green-600";
     }
+
+    private double DistanceToTime(double input)
+        => Math.Round((input / 1000) / (4.5) * 60);
 
     private async Task ScrollCarousel(string direction)
     {
