@@ -23,5 +23,17 @@ namespace CityPlanner.Entities.DTOs
         public PerTypeResultsDTO DogEnclosuresResults { get; set; } = new();
         public PerTypeResultsDTO GymResults { get; set; } = new();
         public PerTypeResultsDTO OutsideGymResults { get; set; } = new();
+        public PerTypeResultsDTO PublicElementarySchoolResults { get; set; } = new();
+        public PerTypeResultsDTO PrivateElementarySchoolResults { get; set; } = new();
+        public PerTypeResultsDTO ReligiousElementarySchoolResults { get; set; } = new();
+        public PerTypeResultsDTO PublicKindergartenResults { get; set; } = new();
+        public PerTypeResultsDTO PrivateKindergartenResults { get; set; } = new();
+        public PerTypeResultsDTO ReligiousKindergartenResults { get; set; } = new();
+        public PerTypeResultsDTO PlaygroundResults { get; set; } = new();
+        public PerTypeResultsDTO GeneralClinicForChildrenResults { get; set; } = new();
+
+        public bool NightLife { get; set; }
+        public bool ForKids { get; set; }
+        public bool PetLovers { get; set; }
     }
 }
