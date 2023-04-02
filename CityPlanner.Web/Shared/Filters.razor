@@ -1,64 +1,46 @@
-﻿@page "/po"
-@inject IJSRuntime _jsRuntime
-
-<div class="title-box">
-    <p class="flex items-center text-xs text-slate-600 mb-2 select-none cursor-pointer group" @onclick="@(() => _jsRuntime.InvokeVoidAsync("history.go", -1))">
-        <svg class="transition-all group-hover:-translate-x-2" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-            <g opacity="0.8" clip-path="url(#clip0_22_309)">
-                <path d="M6.78672 14.8393L0.120056 8.17268L6.78672 1.50601L7.97006 2.68935L2.48672 8.17268L7.97006 13.656L6.78672 14.8393Z" fill="black" />
-            </g>
-            <defs>
-                <clipPath id="clip0_22_309">
-                    <rect width="16" height="16" fill="white" transform="translate(0.120056 0.172668)" />
-                </clipPath>
-            </defs>
-        </svg>
-        Go back
-    </p>
+﻿<div class="title-box">
     <div class="title-subtext">
         Something at
     </div>
     <div class="relative title-text w-max">
         <h1>
-            Zimna 9, Kosice
+            @Building.Street @Building.OrientationNumber, @Building.District    
         </h1>
     </div>
 </div>
 
 <EditForm Model="_userDto" OnSubmit="() => _mainLayout.GoToResults(_userDto)">
-    <div class="flex flex-col justify-center text-center mt-16">
+    <div class="flex flex-col justify-center text-center mt-20">
         <p class="text-main font-semibold text-3xl">1.</p>
         <p class="text-2xl font-semibold">What are you looking for?</p>
-        <div class="my-5 max-w-3xl mx-auto grid grid-cols-3 gap-2">
+        <div class="my-5 max-w-3xl mx-auto grid grid-cols-4 gap-2 gap-x-6">
             <SelectItem Value=@_userDto.WantsPub ValueChanged="(value) => _userDto.WantsPub = value" Id=1 Title="Pub">
-                SVG 
-            </SelectItem>
-            
+                <img src="/icons/beer.svg" />            
+            </SelectItem>            
             <SelectItem Value=@_userDto.WantsCafe ValueChanged="(value) => _userDto.WantsCafe = value" Id=2 Title="Café">
-                SVG 
+                <img src="/icons/cafe.svg" />
             </SelectItem>
             <SelectItem Value=@_userDto.WantsBar ValueChanged="(value) => _userDto.WantsBar = value" Id=3 Title="Bar">
-                SVG
+                <img src="/icons/bar.svg" />
             </SelectItem>
-
             <SelectItem Value=@_userDto.WantsDogEnclosure ValueChanged="(value) => _userDto.WantsDogEnclosure = value" Id=4 Title="Dog enclosure">
-                SVG
+                <img src="/icons/dog.svg" />
             </SelectItem>
             <SelectItem Value=@_userDto.WantsOutsideGym ValueChanged="(value) => _userDto.WantsOutsideGym = value" Id=5 Title="Outdoors Gym">
-                SVG
+                <img src="/icons/gymnastic.svg" />
             </SelectItem>
             <SelectItem Value=@_userDto.WantsGym ValueChanged="(value) => _userDto.WantsGym = value" Id=6 Title="Indoors Gym">
-                SVG
+                <img src="/icons/gym.svg" />
             </SelectItem>
             <SelectItem Value=@_userDto.WantsFastFood ValueChanged="(value) => _userDto.WantsFastFood = value" Id=7 Title="Fast Food">
-                SVG
+                <img src="/icons/food.svg" />
             </SelectItem>
-            <SelectItem Value=@_userDto.WantsRestaurant ValueChanged="(value) => _userDto.WantsRestaurant = value" Id=8 Title="Indoors Gym">
-                SVG
+            <SelectItem Value=@_userDto.WantsRestaurant ValueChanged="(value) => _userDto.WantsRestaurant = value" Id=8 Title="Restaurant">
+                <img src="/icons/restaurant.svg" />
             </SelectItem>
             
         </div>
-        <button type="submit" class="main-button flex items-center gap-2 mt-3 px-16 py-2 uppercase text-sm">
+        <button type="submit" class="main-button flex items-center gap-2 mt-3 px-20 shadow-sm py-2 uppercase text-sm">
             Next
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M16 18H18V6H16M6 18L14.5 12L6 6V18Z" fill="currentColor" />
@@ -68,6 +50,9 @@
 </EditForm>
 
 @code {
+    [Parameter]
+    public Building Building { get; set; } = null!;
+
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
 
