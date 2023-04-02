@@ -1,87 +1,106 @@
 ﻿@implements IDisposable
 @inject IDbContextFactory<DataContext> _dbContextFactory
 
-<div class="title-box">
-    <div class="title-subtext">
-        Find your
+<div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen"
+    <div class="title-box">
+        <div class="title-subtext">
+            Find your
+        </div>
+        <div class="relative title-text w-max">
+            <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-7 uppercase">
+                    @introText
+            </h1>
+        </div>
     </div>
-    <div class="relative title-text w-max">
-        <h1 class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-main pr-6">
-        PERFECT PLACE
-        </h1>
-    </div>
-</div>
 
-<div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
-    <h6 class="text-xl text-subText">
-        @if(submitted && !showResult) {
-            <p class="animate-pulse">
-                Checking for <span class='font-bold'>@spinnerText</span>...
-            </p>
-        }
-        else {
-            <p>
-                Easier than ever before
-            </p>
-        }
-        
-    </h6>
-    <form @onsubmit="SubmitForm" class="w-10/12">
-        <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+    <div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
+        <h6 class="text-xl text-subText">
                 @if (submitted && !showResult)
                 {
-                    <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
+                    <p class="animate-pulse">
+                        Checking for <span class='font-bold'>@spinnerText</span>...
+                    </p>
                 }
                 else
                 {
-                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <p>
+                        Easier than ever before
+                    </p>
                 }
+        </h6>
+        <form @onsubmit="SubmitForm" class="w-10/12">
+            <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        @if (submitted && !showResult || loadingData && !showResult)
+                        {
+                            <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        }
+                        else
+                        {
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        }
 
+                </div>
+                <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted value=@_searchTerm>
+                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 disabled:bg-blue-300 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
             </div>
-            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted value=@_searchTerm>
-            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
-        </div>
-    </form>
-    @if (_resultAddresses is not null && _resultAddresses.Any())
-    {
-        <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
-            @foreach(var result in _resultAddresses) 
+        </form>
+            @if (_resultAddresses is not null && _resultAddresses.Any())
             {
-                <div class="dropdown-item" @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</div>
+                <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
+                    @foreach (var result in _resultAddresses)
+                    {
+                            <div class="dropdown-item" @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</div>
+                    }
+                </div>
             }
+    </div>
+
+    <div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
+        <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
+        <p class="text-lg text-subText text-center">
+            it should take no longer than 15 minutes for you to get anywhere
+        </p>
+        <button @onclick="Scroll" class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
+    </div>
+</div>
+
+<div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
+    <div class="flex flex-row justify-center mt-6">
+        <button @onclick="Scroll" class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-t-main hover:bg-slate-50 transition-all">
+            Find new home
+        </button>
+    </div>
+    <div class="mt-10 text-center mx-auto">
+        <p>the concept of</p>
+        <h1>15 minute city</h1>
+        <div class="relative max-w-3xl mx-auto flex flex-col items-center justify-center mt-36">
+            <h2 class="animate-pulse">Everything within your reach</h2>
+            <p>Walkable & community driven city</p>
+            <p class="flex flex-col gap-2 items-center mt-16">
+                <img src="/icons/leaf.svg" />
+                <span class="text-sm text-slate-600">Getting to zero emission</span>
+            </p>
         </div>
-    }
-</div>
-
-<div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
-    <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
-    <p class="text-lg text-subText text-center">
-        it should not take longer than 15 minutes for you to get anywhere
-    </p>
-    <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
-</div>
-
-<div class="flex flex-col w-1/5 mx-auto mt-12 space-y-2 items-center">
-    <p>Any questions?</p>
-    <button class="rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-4 py-[0.4rem] flex flex-row justify-center space-x-2 items-center transition-all">
-        <svg width="16" height="16" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.5 1.5H3.5C3.10218 1.5 2.72064 1.65804 2.43934 1.93934C2.15804 2.22064 2 2.60218 2 3V16.5L5 13.5H15.5C15.8978 13.5 16.2794 13.342 16.5607 13.0607C16.842 12.7794 17 12.3978 17 12V3C17 2.60218 16.842 2.22064 16.5607 1.93934C16.2794 1.65804 15.8978 1.5 15.5 1.5Z" fill="currentColor"/>
-</svg>
-        <span>Chat with us</span>
-    </button>
+    </div>
 </div>
 
 @code {
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
+
+    private string? introText = "unique place";
+
+    private string[] introTexts = {
+        "perfect place", "cozy nest", "new home", "happy corner"
+    };
 
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
@@ -92,13 +111,26 @@
 
     private bool showResult;
     private bool submitted;
+    private bool loadingData;
+
     private System.Timers.Timer? _timer;
+    private System.Timers.Timer? _timerLoop;
     private string? _searchTerm;
 
     private Building? _selected;
     private List<Building>? _resultAddresses = new();
 
     private DateTime? _latestUpdate;
+
+    private bool _firstSectionHidden = false;
+    private string? _firstSectionHiddenClass => _firstSectionHidden ? "-translate-y-full" : null;
+
+    private string? _secondSectionHiddenClass => !_firstSectionHidden ? "translate-y-full" : null;
+
+    private void Scroll()
+    {
+        _firstSectionHidden = !_firstSectionHidden;
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -109,7 +141,17 @@
         _timer.Stop();
         _timer.Elapsed += Filter;
         _timer.AutoReset = false;
+
+        _timerLoop = new System.Timers.Timer(4000);
+        _timerLoop.Start();
+        _timerLoop.Elapsed += async (Object? obj, ElapsedEventArgs e) =>
+        {
+            introText = introTexts[(Array.IndexOf(introTexts, introText) + 1) % introTexts.Length];
+            await InvokeAsync(StateHasChanged);
+        };
+        _timerLoop.AutoReset = true;
     }
+
 
     private void OnSearchTextChanged(ChangeEventArgs e)
     {
@@ -119,7 +161,9 @@
         {
             _resultAddresses = null;
             _timer?.Stop();
-        } else {
+        }
+        else
+        {
             _timer?.Stop();
             _timer?.Start();
         }
@@ -134,8 +178,9 @@
 
     private async Task SubmitForm()
     {
-        if (_selected is null) {
-            if(_resultAddresses is null || !_resultAddresses.Any())
+        if (_selected is null)
+        {
+            if (_resultAddresses is null || !_resultAddresses.Any())
                 return;
 
             OnOptionSelected(_resultAddresses.First());
@@ -144,14 +189,14 @@
         submitted = true;
         _resultAddresses = null;
 
-        for(int i=0; i<2; i++)
+        _ = _mainLayout.GoToFilters(_selected);
+
+        while (true)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1500);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
-
-        _mainLayout.GoToResults(_selected);
     }
 
     private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)
@@ -163,6 +208,8 @@
         }
 
         _latestUpdate = DateTime.Now;
+        loadingData = true;
+        await InvokeAsync(StateHasChanged);
 
         using var db = _dbContextFactory.CreateDbContext();
         var result = await db.Addresses
@@ -178,9 +225,13 @@
 
         _resultAddresses = result;
 
+        loadingData = false;
         await InvokeAsync(StateHasChanged);
     }
 
     void IDisposable.Dispose()
-        => _timer?.Dispose();
+    {
+        _timer?.Dispose();
+        _timerLoop?.Dispose();
+    }
 }
