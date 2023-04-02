@@ -7,9 +7,9 @@
 
 @code {
     [Parameter]
-    public int ScoreValue { get; set; }
+    public double ScoreValue { get; set; }
 
-    private int score = 0;
+    private double score = 0;
 
     protected override void OnAfterRender(bool firstRender) {
         if (!firstRender)
