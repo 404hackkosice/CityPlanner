@@ -1,4 +1,5 @@
 function initMap(id, buildingX, buildingY, nearPointsData) {
+
     // Create a new map object
     var map = new google.maps.Map(document.getElementById(id), {
         center: { lat: buildingY, lng: buildingX },
@@ -123,7 +124,6 @@ function initMap(id, buildingX, buildingY, nearPointsData) {
     nearPointsData.forEach(point => {
         new google.maps.Marker({
             position: new google.maps.LatLng(point.y, point.x),
-            title: point.name + ' - ' + point.type,
             map: map,
             icon: {
                 url: "../icons/map_blue.svg",
