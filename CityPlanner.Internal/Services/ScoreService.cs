@@ -17,26 +17,42 @@
         {
             var results = new ResultsDTO
             {
-                PostOfficeResults = ReturnResultFor(true, 3, "Pošty"),
-                DentalClinicResults = ReturnResultFor(true, 3, "ambulancia zubného lekárstva"),
-                GeneralClinicForAdultsResults = ReturnResultFor(true, 3, "Všeobecná ambulancia pre dospelých"),
-                SupermarketResults = ReturnResultFor(true, 3, "supermarket"),
-                ChemistResults = ReturnResultFor(true, 3, "chemist"),
-                PharmacyResults = ReturnResultFor(true, 3, "pharmacy"),
-                ConvenienceResults = ReturnResultFor(true, 3, "convenience"),
-                ParcelLockerResults = ReturnResultFor(true, 3, "parcel_locker"),
-                PublicTransportResults = ReturnResultFor(true, 3, "MHD"),
-                OutsideGymResults = ReturnResultFor(_userData.WantsOutsideGym, 2, "fitness_station"),
-                GymResults = ReturnResultFor(_userData.WantsGym, 2, "fitness_fitness"),
-                RestaurantResults = ReturnResultFor(_userData.WantsRestaurant, 2, "restaurant"),
-                BarResults = ReturnResultFor(_userData.WantsBar, 2, "bar"),
-                PubResults = ReturnResultFor(_userData.WantsPub, 2, "pub"),
-                CafeResults = ReturnResultFor(_userData.WantsCafe, 2, "cafe"),
-                FastFoodResults = ReturnResultFor(_userData.WantsFastFood, 2, "fast_food"),
-                DogEnclosuresResults = ReturnResultFor(_userData.WantsDogEnclosure, 2, "Vybehy_psy"),
-
+                PostOfficeResults = ReturnResultFor(true, 3, Constants.PointTypes.POST_OFFICE),
+                DentalClinicResults = ReturnResultFor(true, 3, Constants.PointTypes.DENTAL_CLINIC),
+                GeneralClinicForAdultsResults = ReturnResultFor(true, 3, Constants.PointTypes.GENERAL_CLINIC_ADULTS),
+                SupermarketResults = ReturnResultFor(true, 3, Constants.PointTypes.SUPERMARKET),
+                ChemistResults = ReturnResultFor(true, 3, Constants.PointTypes.CHEMIST),
+                PharmacyResults = ReturnResultFor(true, 3, Constants.PointTypes.PHARMACY),
+                ConvenienceResults = ReturnResultFor(true, 3, Constants.PointTypes.CONVENIENCE),
+                ParcelLockerResults = ReturnResultFor(true, 3, Constants.PointTypes.PARCEL_LOCKER),
+                PublicTransportResults = ReturnResultFor(true, 3, Constants.PointTypes.PUBLIC_TRANSPORT),
+                OutsideGymResults = ReturnResultFor(_userData.WantsOutsideGym, 2, Constants.PointTypes.OUTSIDE_GYM),
+                GymResults = ReturnResultFor(_userData.WantsGym, 2, Constants.PointTypes.GYM),
+                RestaurantResults = ReturnResultFor(_userData.WantsRestaurant, 2, Constants.PointTypes.RESTAURANT),
+                BarResults = ReturnResultFor(_userData.WantsBar, 2, Constants.PointTypes.BAR),
+                PubResults = ReturnResultFor(_userData.WantsPub, 2, Constants.PointTypes.PUB),
+                CafeResults = ReturnResultFor(_userData.WantsCafe, 2, Constants.PointTypes.CAFE),
+                FastFoodResults = ReturnResultFor(_userData.WantsFastFood, 2, Constants.PointTypes.FAST_FOOD),
+                DogEnclosuresResults = ReturnResultFor(_userData.WantsDogEnclosure, 2, Constants.PointTypes.DOG_ENCLOSURE),
+                PublicElementarySchoolResults = ReturnResultFor(_userData.WantsPublicElementarySchool, (int) _userData.Children, Constants.PointTypes.PUBLIC_ELEMENTARY_SCHOOL),
+                PrivateElementarySchoolResults = ReturnResultFor(_userData.WantsPrivateElementarySchool, (int)_userData.Children, Constants.PointTypes.PRIVATE_ELEMENTARY_SCHOOL),
+                ReligiousElementarySchoolResults = ReturnResultFor(_userData.WantsReligiousElementarySchool, (int)_userData.Children, Constants.PointTypes.RELIGIOUS_ELEMENTARY_SCHOOL),
+                PublicKindergartenResults = ReturnResultFor(_userData.WantsPublicKindergarten, (int)_userData.Children, Constants.PointTypes.PUBLIC_KINDERGARTEN),
+                PrivateKindergartenResults = ReturnResultFor(_userData.WantsPrivateKindergarten, (int)_userData.Children, Constants.PointTypes.PRIVATE_KINDERGARTEN),
+                ReligiousKindergartenResults = ReturnResultFor(_userData.WantsReligiousKindergarten, (int)_userData.Children, Constants.PointTypes.RELIGIOUS_KINDERGARTEN),
+                PlaygroundResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.PLAYGROUND),
+                GeneralClinicForChildrenResults = ReturnResultFor(_userData.Children != Entities.Enums.ChildAspirations.NotPlanned, (int)_userData.Children, Constants.PointTypes.GENERAL_CLINIC_CHILDREN),
                 Score = Math.Round(_points / _maxPoints * 100, 1)
             };
+
+            if (results.DogEnclosuresResults.TotalCount > 0)
+                results.PetLovers = true;
+
+            if (results.BarResults.TotalCount > 0)
+                results.NightLife = true;
+
+            if (results.PlaygroundResults.TotalCount > 0 && results.GeneralClinicForChildrenResults.TotalCount > 0)
+                results.ForKids = true;
 
             return results;
         }

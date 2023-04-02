@@ -13,10 +13,12 @@ namespace CityPlanner.Internal.Services.Hosted;
 
 public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedService>
 {
-    public PopulateDbHostedService(IServiceScopeFactory serviceScopeFactory) :
+    private readonly IDbContextFactory<DataContext> _dbContextFactory;
+    
+    public PopulateDbHostedService(IServiceScopeFactory serviceScopeFactory, IDbContextFactory<DataContext> dbContextFactory) :
         base(serviceScopeFactory, TimeSpan.FromDays(Constants.Limits.MINIMUM_SECOND_HOSTED_SERVICE_DELAY), TimeSpan.FromDays(1))
     {
-
+        _dbContextFactory = dbContextFactory;
     }
 
     protected override async void OnRun()
@@ -36,10 +38,9 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
                     Delimiter = ";",
                     Encoding = Encoding.UTF8
                 });
-                using var scope = ServiceScopeFactory.CreateScope();
 
                 var records = csv.GetRecords<BuildingDTO>().ToList();
-                var db = scope.ServiceProvider.GetRequiredService<DataContext>()!;
+                using var db = _dbContextFactory.CreateDbContext();
 
                 db.Addresses.AddRange(records.Select(x => new Building
                 {
@@ -63,10 +64,9 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
                     Delimiter = ";",
                     Encoding = Encoding.UTF8
                 });
-                using var scope = ServiceScopeFactory.CreateScope();
 
                 var records = csv.GetRecords<InterestPointsDTO>().ToList();
-                var db = scope.ServiceProvider.GetRequiredService<DataContext>()!;
+                using var db = _dbContextFactory.CreateDbContext();
 
                 db.InterestPoints.AddRange(records.Select(x => new InterestPoint
                 {
@@ -87,8 +87,7 @@ public class PopulateDbHostedService : AbstractHostedService<PopulateDbHostedSer
 
     private async Task CalculateNears()
     {
-        using var scope = ServiceScopeFactory.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<DataContext>()!;
+        using var db = _dbContextFactory.CreateDbContext();
 
         var buildings = await db.Addresses
             .Include(x => x.NearInterestPoints)

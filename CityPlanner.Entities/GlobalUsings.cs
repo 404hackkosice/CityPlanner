@@ -1,4 +1,5 @@
-﻿global using CsvHelper.Configuration.Attributes;
+﻿global using CityPlanner.Entities.Enums;
+global using CsvHelper.Configuration.Attributes;
 
 global using Devity.Extensions;
 

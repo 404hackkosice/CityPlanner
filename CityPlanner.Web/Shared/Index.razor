@@ -1,8 +1,5 @@
 ﻿@implements IDisposable
-@page "/"
-@inject DataContext _db
-
-<PageTitle>Livity - Living that you're looking for</PageTitle>
+@inject IDbContextFactory<DataContext> _dbContextFactory
 
 <div class="title-box">
     <div class="title-subtext">
@@ -49,7 +46,7 @@
                 }
 
             </div>
-            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted>
+            <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted value=@_searchTerm>
             <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
         </div>
     </form>
@@ -58,7 +55,7 @@
         <div class=" w-10/12 flex flex-col bg-slate-50 rounded-md absolute overflow-hidden shadow-lg top-[5.5rem]">
             @foreach(var result in _resultAddresses) 
             {
-                <div class="dropdown-item">@result.Street @result.OrientationNumber, @result.District</div>
+                <div class="dropdown-item" @onclick="() => OnOptionSelected(result)">@result.Street @result.OrientationNumber, @result.District</div>
             }
         </div>
     }
@@ -67,7 +64,7 @@
 <div class="flex flex-col justify-center items-center mt-10 w-1/4 mx-auto space-y-2">
     <img src="/icons/direction-fork.svg" alt="send icon" class="w-1/6">
     <p class="text-lg text-subText text-center">
-        it should not take longer than 15 minutes for you to get everywhere
+        it should not take longer than 15 minutes for you to get anywhere
     </p>
     <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
 </div>
@@ -83,6 +80,9 @@
 </div>
 
 @code {
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
     private string[] spinnerTexts = {
         "hospitals", "parks", "museums", "kindergardens", "gardens", "parking spots", "public transport"
     };
@@ -95,14 +95,17 @@
     private System.Timers.Timer? _timer;
     private string? _searchTerm;
 
+    private Building? _selected;
     private List<Building>? _resultAddresses = new();
+
+    private DateTime? _latestUpdate;
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (!firstRender)
             return;
 
-        _timer = new System.Timers.Timer(500);
+        _timer = new System.Timers.Timer(250);
         _timer.Stop();
         _timer.Elapsed += Filter;
         _timer.AutoReset = false;
@@ -122,17 +125,33 @@
         }
     }
 
+    private async void OnOptionSelected(Building building)
+    {
+        _selected = building;
+        _searchTerm = $"{building.Street} {building.OrientationNumber}, {building.District}";
+        await SubmitForm();
+    }
+
     private async Task SubmitForm()
     {
+        if (_selected is null) {
+            if(_resultAddresses is null || !_resultAddresses.Any())
+                return;
+
+            OnOptionSelected(_resultAddresses.First());
+        }
+
         submitted = true;
+        _resultAddresses = null;
 
-        while (submitted && !showResult)
+        for(int i=0; i<2; i++)
         {
-            await Task.Delay(3000);
-
+            await Task.Delay(1000);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
+
+        _mainLayout.GoToScore(_selected);
     }
 
     private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)
@@ -143,13 +162,21 @@
             return;
         }
 
-        _resultAddresses = await _db.Addresses
+        _latestUpdate = DateTime.Now;
+
+        using var db = _dbContextFactory.CreateDbContext();
+        var result = await db.Addresses
             .Where(x => x.SearchableAddress.Contains(_searchTerm.NormalizeForSearch()))
-            .Take(5)
             .OrderBy(x => x.Street)
             .ThenBy(x => x.OrientationNumber)
+            .Take(5)
             .AsNoTracking()
             .ToListAsync();
+
+        if (_latestUpdate is not null && _latestUpdate > DateTime.Now)
+            return;
+
+        _resultAddresses = result;
 
         await InvokeAsync(StateHasChanged);
     }
