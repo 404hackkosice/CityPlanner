@@ -162,9 +162,6 @@
     [Parameter]
     public UserDTO UserDTO { get; set; } = null!;
 
-    public bool _childStuffVisible = false;
-    public string? _childStuffVisibleClass = (_childStuffVisible) ? null : "hidden";
-
     [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
     private MainLayout _mainLayout { get; set; } = default!;
 }

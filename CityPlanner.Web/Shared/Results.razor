@@ -1,21 +1,12 @@
-@inject IJSRuntime _jsRuntime
+
 @page "/results"
 
 <div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen">
-    <div class="flex flex-row justify-center w-full mt-2">
-        <p class="flex items-center text-xs text-slate-600 mb-2 select-none cursor-pointer group" @onclick='@(() => _jsRuntime.InvokeVoidAsync("history.go", -1))'>
-            <svg class="transition-all group-hover:-translate-x-2" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-                <g opacity="0.8" clip-path="url(#clip0_22_309)">
-                    <path d="M6.78672 14.8393L0.120056 8.17268L6.78672 1.50601L7.97006 2.68935L2.48672 8.17268L7.97006 13.656L6.78672 14.8393Z" fill="black" />
-                </g>
-                <defs>
-                    <clipPath id="clip0_22_309">
-                        <rect width="16" height="16" fill="white" transform="translate(0.120056 0.172668)" />
-                    </clipPath>
-                </defs>
-            </svg>
-            Go back
-        </p>
+    <div id="asd" class="flex flex-row justify-center w-full mt-2">
+        <button class="text-xs text-subText bg-pageBg flex flex-row space-x-2" @onclick="() => _mainLayout.GoToIndex()">
+            <img src="/icons/repeat.svg" alt="school icon" class="w-1/5">
+            <div>Try again</div>
+        </button>
     </div>
 
     <div class="title-box mt-7">
@@ -133,6 +124,10 @@
 </div>
 
 @code {
+    
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
     [Parameter]
     public ResultsDTO ResultsDTO { get; set; } = null!;
 
