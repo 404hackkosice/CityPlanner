@@ -7,13 +7,16 @@
         <main class="flex-1">
             @if (_currentPage == 0)
             {
-                <Kids Building="_building" />
+                <Index/>
             }
             else if(_currentPage == 1)
             {
                 <Filters Building="_building"/>
+            } else if(_currentPage == 2)
+            {
+                <Kids Building="_building" UserDTO="_userDto" />
             }
-            else if (_currentPage == 2)
+            else if (_currentPage == 3)
             {
                 <Results ResultsDTO="_results" Building="_building"/>
             }
@@ -27,6 +30,7 @@
 
     private ResultsDTO? _results;
     private Building? _building;
+    private UserDTO? _userDto;
 
     public async Task GoToFilters(Building building)
     {
@@ -46,6 +50,13 @@
         StateHasChanged();
     }
 
+    public void GoToKids(UserDTO userDto)
+    {
+        _currentPage = 2;
+        _userDto = userDto;
+        StateHasChanged();
+    }
+
     public void GoToResults(UserDTO userDto)
     {
         if (_building is null)
@@ -53,8 +64,7 @@
 
         _results = new ScoreService(_building, userDto).GetResults();
 
-        _currentPage = 2;
-
+        _currentPage = 3;
         StateHasChanged();
     }
 }

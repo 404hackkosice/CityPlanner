@@ -107,8 +107,6 @@
     };
     private string? spinnerText = "goverment offices";
 
-    private string? inputValue;
-
     private bool showResult;
     private bool submitted;
     private bool loadingData;
@@ -183,7 +181,8 @@
             if (_resultAddresses is null || !_resultAddresses.Any())
                 return;
 
-            OnOptionSelected(_resultAddresses.First());
+            _selected = _resultAddresses.First();
+            _searchTerm = $"{_selected.Street} {_selected.OrientationNumber}, {_selected.District}";
         }
 
         submitted = true;
