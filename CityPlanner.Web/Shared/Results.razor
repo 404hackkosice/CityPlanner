@@ -1,33 +1,29 @@
-@inject IJSRuntime _jsRuntime
+
 @page "/results"
 
-<div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen">
-    <div class="flex flex-row justify-center w-full mt-4">
-        <p class="flex items-center text-xs text-slate-600 mb-2 select-none cursor-pointer group" @onclick='@(() => _jsRuntime.InvokeVoidAsync("history.go", -1))'>
-            <svg class="transition-all group-hover:-translate-x-2" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-                <g opacity="0.8" clip-path="url(#clip0_22_309)">
-                    <path d="M6.78672 14.8393L0.120056 8.17268L6.78672 1.50601L7.97006 2.68935L2.48672 8.17268L7.97006 13.656L6.78672 14.8393Z" fill="black" />
-                </g>
-                <defs>
-                    <clipPath id="clip0_22_309">
-                        <rect width="16" height="16" fill="white" transform="translate(0.120056 0.172668)" />
-                    </clipPath>
-                </defs>
-            </svg>
-            Go back
-        </p>
+<div class="w-full h-[93vh] overflow-hidden bg-pageBg">
+    
+    <div class="w-full h-[97vh] top-0 left-0 fixed overflow-hidden">
+        <img src="/images/title.svg" alt="bg photo" class="object-cover @_bgWNormalClass h-auto w-full bottom-0 absolute z-0 transition ease-linear duration-500">
     </div>
+    <div class="@_firstSectionHiddenClass transform transition duration-500 fixed top-0 w-full h-screen min-h-screen">
+        <div id="asd" class="flex flex-row justify-center w-full mt-2">
+            <button class="text-xs text-subText bg-pageBg flex flex-row space-x-2" @onclick="() => _mainLayout.GoToIndex()">
+                <img src="/icons/repeat.svg" alt="school icon" class="w-1/5">
+                <div>Try again</div>
+            </button>
+        </div>
 
-    <div class="title-box mt-4">
-        <div class="title-subtext">
-            What we&apos;ve discovered at
+        <div class="title-box mt-7">
+            <div class="title-subtext">
+                What we&apos;ve discovered at
+            </div>
+            <div class="relative title-text w-max">
+                <h1 class="">
+                    @Building.Street @Building.OrientationNumber, @Building.District
+                </h1>
+            </div>
         </div>
-        <div class="relative title-text w-max">
-            <h1 class="">
-                @Building.Street @Building.OrientationNumber, @Building.District
-            </h1>
-        </div>
-    </div>
 
     <div class="mt-16 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto relative">
         <h6 class="text-lg text-subText">What you&apos;ve got</h6>
@@ -56,29 +52,29 @@
                 }
                 <div>
                     Night life
+
                 </div>
-            </div>
-            <div class="flex flex-row items-stretch space-x-1">
-                @if (ResultsDTO.PetLovers)
-                {
-                    <Checkmark />
-                }
-                else
-                {
-                    <Cross />
-                }
-                <div>
-                    Pet lovers
+                <div class="flex flex-row items-stretch space-x-1">
+                    @if (ResultsDTO.PetLovers)
+                    {
+                        <Checkmark />
+                    }
+                    else
+                    {
+                        <Cross />
+                    }
+                    <div>
+                        Pet lovers
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="relative mt-6 flex flex-col justify-center items-center space-y-2 w-1/2 mx-auto relative">
         <h6 class="relative top-[0.75rem] text-lg text-subText mb-0">Everything is within your walking distance</h6>
         <div class="relative w-3/4 mx-auto text-5xl text-slate-400">
-            <button @onclick="@(() => ScrollCarousel("left"))" class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">‹</button>
-            <button @onclick="@(() => ScrollCarousel("right"))" class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">›</button>
+            <button @onclick="@(() => ScrollCarousel("left"))" class="absolute top-14 left-[-2rem] cursor-pointer hover:text-main">â€¹</button>
+            <button @onclick="@(() => ScrollCarousel("right"))" class="absolute top-14 right-[-2rem] cursor-pointer hover:text-main">â€º</button>
         </div>
         <div class="max-w-xl mx-auto min-w-0">
             <div class="carousel scroll-smooth overflow-x-scroll scrollbar-hide flex space-x-5 font-light">
@@ -94,7 +90,9 @@
                     <div class="text-subText text-xs mt-2">+ 4 more</div>
                 </div>
 
+
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
+
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
                     <div class="mt-1 tracking-wider">School</div>
                     <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
@@ -104,6 +102,7 @@
                     </div>
                     <div class="text-subText text-xs mt-2">+ 4 more</div>
                 </div>
+
 
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
@@ -117,6 +116,7 @@
                 </div>
 
                 <div class="flex flex-col p-2 bg-white rounded-[3px] min-w-[11rem] items-center text-sm flex-wrap break-before-auto text-center">
+
                     <img src="/icons/school.svg" alt="school icon" class="w-1/5">
                     <div class="mt-1 tracking-wider">School</div>
                     <div class="font-bold mt-1 leading-5">ZS Park Angelinum</div>
@@ -128,31 +128,35 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="-mt-4 w-max mx-auto">
-        <Score ScoreValue="@ResultsDTO.Score"></Score>
-    </div>
+        <div class="-mt-4 w-max mx-auto">
+            <Score ScoreValue="@ResultsDTO.Score"></Score>
+        </div>
+
 
     <div class="flex flex-row justify-center mt-6">
         <button class="animate-bounce w-6 h-6" @onclick="Scroll">
             <img src="/icons/down-arrow.svg" alt="arrow down">
         </button>
     </div>
-</div>
 
-<div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
-    <div class="flex flex-row justify-center mt-6">
-        <button class="animate-bounce w-6 h-6" @onclick="Scroll">
-            <img src="/icons/down-arrow.svg" alt="arrow down" class=" rotate-180">
-        </button>
-    </div>
-    <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
-        <GoogleMaps Building="Building"/>
+    <div class="fixed bottom-0 w-full h-screen min-h-screen transform @_secondSectionHiddenClass transition duration-500">
+        <div class="flex flex-row justify-center mt-6">
+            <button class="animate-bounce w-6 h-6" @onclick="Scroll">
+                <img src="/icons/down-arrow.svg" alt="arrow down" class=" rotate-180">
+            </button>
+        </div>
+        <div class="bg-white w-2/3 mx-auto h-2/3 mt-6 rounded-md p-2">
+            <GoogleMaps Building="Building"/>
+        </div>
     </div>
 </div>
 
 @code {
+    
+    [CascadingParameter(Name = Constants.CascadingParameters.MainLayout)]
+    private MainLayout _mainLayout { get; set; } = default!;
+
     [Parameter]
     public ResultsDTO ResultsDTO { get; set; } = null!;
 
@@ -165,10 +169,14 @@
     private bool _secondSectionHidden = true;
     private string? _secondSectionHiddenClass => _secondSectionHidden ? "translate-y-full" : null;
 
+    private bool _bgWNormal = true;
+    private string? _bgWNormalClass => _bgWNormal ? null : "scale-110";
+
     private void Scroll()
     {
         _firstSectionHidden = !_firstSectionHidden;
         _secondSectionHidden = !_secondSectionHidden;
+         _bgWNormal = !_bgWNormal;
     }
 
     private string GetColorTime(int min)
