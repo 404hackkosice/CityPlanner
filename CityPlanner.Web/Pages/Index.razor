@@ -50,7 +50,7 @@
 
             </div>
             <input type="search" id="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Street, City" @oninput="OnSearchTextChanged" required disabled=@submitted value=@_searchTerm>
-            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
+            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 disabled:bg-blue-300 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2" disabled=@submitted>Search</button>
         </div>
     </form>
     @if (_resultAddresses is not null && _resultAddresses.Any())
@@ -70,16 +70,6 @@
         it should not take longer than 15 minutes for you to get everywhere
     </p>
     <button class="rounded-sm bg-white text-mainDark px-6 py-1 text-sm border-4 border-transparent hover:border-b-main hover:bg-slate-50 transition-all">Read more</button>
-</div>
-
-<div class="flex flex-col w-1/5 mx-auto mt-12 space-y-2 items-center">
-    <p>Any questions?</p>
-    <button class="rounded-md bg-mainLight text-mainDark hover:bg-main hover:text-white text-sm px-4 py-[0.4rem] flex flex-row justify-center space-x-2 items-center transition-all">
-        <svg width="16" height="16" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.5 1.5H3.5C3.10218 1.5 2.72064 1.65804 2.43934 1.93934C2.15804 2.22064 2 2.60218 2 3V16.5L5 13.5H15.5C15.8978 13.5 16.2794 13.342 16.5607 13.0607C16.842 12.7794 17 12.3978 17 12V3C17 2.60218 16.842 2.22064 16.5607 1.93934C16.2794 1.65804 15.8978 1.5 15.5 1.5Z" fill="currentColor"/>
-</svg>
-        <span>Chat with us</span>
-    </button>
 </div>
 
 @code {
@@ -133,7 +123,13 @@
     private async Task SubmitForm()
     {
         if (_selected is null)
+        {
+            if (_resultAddresses is not null && _resultAddresses.Any())
+            {
+                OnOptionSelected(_resultAddresses[0]);
+            }
             return;
+        }
 
         submitted = true;
         _resultAddresses = null;

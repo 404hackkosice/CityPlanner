@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPlanner.Web", "CityPlanner.Web\CityPlanner.Web.csproj", "{1D3F36E0-3735-4550-BED4-15B991ED28C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPlanner.Web", "CityPlanner.Web\CityPlanner.Web.csproj", "{1D3F36E0-3735-4550-BED4-15B991ED28C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPlanner.Entities", "CityPlanner.Entities\CityPlanner.Entities.csproj", "{5A54185D-5FF4-45CC-BF2B-C799A2CAE7A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPlanner.Entities", "CityPlanner.Entities\CityPlanner.Entities.csproj", "{5A54185D-5FF4-45CC-BF2B-C799A2CAE7A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityPlanner.Internal", "CityPlanner.Internal\CityPlanner.Internal.csproj", "{79B1C876-ED77-4C53-A3BC-5A58F1260314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPlanner.Internal", "CityPlanner.Internal\CityPlanner.Internal.csproj", "{79B1C876-ED77-4C53-A3BC-5A58F1260314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
