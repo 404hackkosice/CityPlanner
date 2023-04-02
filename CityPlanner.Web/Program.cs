@@ -14,6 +14,8 @@ namespace CityPlanner.Web
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
 
+            builder.Services.AddScoped<GptService>();
+
             builder.Services.AddHostedService<PopulateDbHostedService>();
 
             builder.Services.AddDbContextFactory<DataContext>(options =>
