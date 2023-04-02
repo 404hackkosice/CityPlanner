@@ -30,7 +30,7 @@
         <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                @if (submitted && !showResult)
+                @if (submitted && !showResult || loadingData && !showResult)
                 {
                     <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24">
@@ -88,6 +88,8 @@
 
     private bool showResult;
     private bool submitted;
+    private bool loadingData;
+
     private System.Timers.Timer? _timer;
     private System.Timers.Timer? _timerLoop;
     private string? _searchTerm;
@@ -96,7 +98,6 @@
     private List<Building>? _resultAddresses = new();
 
     private DateTime? _latestUpdate;
-
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -171,6 +172,8 @@
         }
 
         _latestUpdate = DateTime.Now;
+        loadingData = true;
+        await InvokeAsync(StateHasChanged);
 
         using var db = _dbContextFactory.CreateDbContext();
         var result = await db.Addresses
@@ -186,6 +189,7 @@
 
         _resultAddresses = result;
 
+        loadingData = false;
         await InvokeAsync(StateHasChanged);
     }
 
