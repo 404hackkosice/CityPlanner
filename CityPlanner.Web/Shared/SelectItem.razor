@@ -29,9 +29,6 @@
     public bool Value { get; set; }
 
     [Parameter]
-    public Expression<Func<bool>> ValueExpression { get; set; }
-
-    [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
     private async void UpdateParent(ChangeEventArgs e)

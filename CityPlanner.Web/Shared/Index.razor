@@ -14,7 +14,7 @@
 
 <div class="mt-24 flex flex-col justify-center items-center space-y-4 w-1/2 mx-auto relative">
     <h6 class="text-xl text-subText">
-        @if(submitted && !showResult) {
+        @if(submitted) {
             <p class="animate-pulse">
                 Checking for <span class='font-bold'>@spinnerText</span>...
             </p>
@@ -30,7 +30,7 @@
         <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                @if (submitted && !showResult || loadingData && !showResult)
+                @if (submitted || loadingData)
                 {
                     <svg class="animate-spin w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24">
@@ -86,7 +86,6 @@
 
     private string? inputValue;
 
-    private bool showResult;
     private bool submitted;
     private bool loadingData;
 
@@ -147,8 +146,8 @@
             if(_resultAddresses is null || !_resultAddresses.Any())
                 return;
 
-            _selected = building;
-            _searchTerm = $"{building.Street} {building.OrientationNumber}, {building.District}";
+            _selected = _resultAddresses.First();
+            _searchTerm = $"{_selected.Street} {_selected.OrientationNumber}, {_selected.District}";
         }
 
         submitted = true;
