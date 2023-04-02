@@ -134,14 +134,14 @@
         submitted = true;
         _resultAddresses = null;
 
-        for(int i=0; i<2; i++)
+        _ = _mainLayout.GoToFilters(_selected);
+
+        while(true)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1500);
             spinnerText = spinnerTexts[(Array.IndexOf(spinnerTexts, spinnerText) + 1) % spinnerTexts.Length];
             StateHasChanged();
         }
-
-        _mainLayout.GoToResults(_selected);
     }
 
     private async void Filter(Object? obj = null, ElapsedEventArgs? e = null)

@@ -9,8 +9,11 @@
             {
                 <Index/>
             }
-
-            else if (_currentPage == 1)
+            else if(_currentPage == 1)
+            {
+                <Filters/>
+            }
+            else if (_currentPage == 2)
             {
                 <Results ResultsDTO="_results"/>
             }
@@ -23,8 +26,9 @@
     private int _currentPage = 0;
 
     private ResultsDTO? _results;
+    private Building? _building;
 
-    public async void GoToResults(Building building)
+    public async Task GoToFilters(Building building)
     {
         using var db = _dbContextFactory.CreateDbContext();
 
@@ -36,7 +40,18 @@
         if (targetBuilding is null)
             return;
 
-        _results = new ScoreService(targetBuilding, new()
+        _building = targetBuilding;
+        _currentPage = 1;
+
+        StateHasChanged();
+    }
+
+    public void GoToResults()
+    {
+        if (_building is null)
+            return;
+
+        _results = new ScoreService(_building, new()
         {
            WantsBar = true,
            WantsCafe = true,
@@ -48,7 +63,7 @@
            WantsRestaurant = true
             }).GetResults();
 
-        _currentPage = 1;
+        _currentPage = 2;
 
         StateHasChanged();
     }
