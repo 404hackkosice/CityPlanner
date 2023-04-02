@@ -56,4 +56,25 @@
     .dropdown-item {
         @apply px-4 py-[0.65rem] cursor-pointer border-b border-slate-200 transition-all hover:bg-slate-200 last:border-b-0 border-l-4 border-l-transparent hover:border-l-blue-700;
     }
+
+    .size-changing-bg {
+        background-image: url("./../images/title.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom center;
+        height: 97vh;
+        width: 100%;
+        @apply bg-pageBg;
+    }
+
+    .size-changing-bg-scaled {
+        background-image: url("./../images/title.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom center;
+        height: 97vh;
+        width: 100%;
+        @apply bg-pageBg;
+        transition: all ease-in 100ms;
+    }
 }
